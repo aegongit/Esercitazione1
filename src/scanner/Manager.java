@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Manager {
 	public static  Map<String,Stato> set;
-	public static final String multicastAddress  = "224.0.0.1";
+	public static final String multicastAddress  = "224.0.0.2";
 	public final int PORT = 7777;
 	
 	public Manager() {

@@ -9,7 +9,7 @@ import java.net.MulticastSocket;
 
 public class Peer {
 	
-	private final String multicastAddress = "224.0.0.1";
+	private final String multicastAddress = "224.0.0.2";
 	private final int PORT = 7777;
 	private final int MAX = 65507;
 	public Peer() throws IOException {
