@@ -18,9 +18,7 @@ public class Manager {
 	public Manager() {
 		if(set == null) {
 			set  = new HashMap<String, Stato>();
-		set.put("192.168.0.1", new Stato(true,false));
-		set.put("192.168.0.1", new Stato(true,true));
-		set.put("192.168.0.2", new Stato(true,false));
+		
 		}
 	}
 	
