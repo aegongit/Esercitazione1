@@ -3,7 +3,7 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JList;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -23,16 +23,19 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JLabel;
+
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JLabel;
+
 public class GUIScanner {
 
 	private JFrame frame;
+	LinkedList<JLabel> lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -62,7 +65,7 @@ public class GUIScanner {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		
+		lblNewLabel = new LinkedList<JLabel>();
 		frame.setBounds(100, 100, 376, 504);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -74,21 +77,35 @@ public class GUIScanner {
 				Manager m = new Manager();
 				Iterator i =  Manager.set.keySet().iterator();
 				int count = 0;
-				LinkedList<JLabel> lblNewLabel = new LinkedList<JLabel>();
+				
+				
 				while(i.hasNext()) {
 					count ++;
 					String key = (String) i.next();
 					Stato b = Manager.set.get(key);
+					JLabel  l = find(key);
+					if( l != null) {
+						lblNewLabel.removeFirstOccurrence(l);
+						frame.getContentPane().remove(l);
+						System.out.println("del");
+					}
 					
+					JLabel tmpLabel = new JLabel(key);
+					lblNewLabel.add(tmpLabel);
+					System.out.println("Alive: "+b.isAlive());
+					if(b.isConnected())
+						tmpLabel.setForeground(Color.GREEN);
+					else if(b.isAlive())
+						tmpLabel.setForeground(Color.BLUE);
+					else {
+						tmpLabel.setForeground(Color.GRAY);
+						System.out.println(tmpLabel.getText());
 					
-					lblNewLabel.add(new JLabel(key));
-					if(b.getConnected())
-						lblNewLabel.peekLast().setForeground(Color.GREEN);
-					else if(b.getAlive())
-						lblNewLabel.peekLast().setForeground(Color.blue);
+					}
 					
-					lblNewLabel.getLast().setBounds(23, 31+(count*10), 104, 20+(count*10));
-					frame.getContentPane().add(lblNewLabel.getLast());
+					tmpLabel.setBounds(23, 31+(count*10), 104, 20+(count*10));
+					frame.getContentPane().add(tmpLabel);
+					
 					frame.repaint();
 					
 					
@@ -114,5 +131,16 @@ public class GUIScanner {
 		
 		
 		
+	}
+	
+	
+	public JLabel find(String l) {
+		Iterator<JLabel> i = lblNewLabel.iterator();
+		while(i.hasNext()) {
+			JLabel tmpLabel = i.next();
+			if(tmpLabel.getText().equals(l))
+				return tmpLabel;
+		}
+		return null;
 	}
 }

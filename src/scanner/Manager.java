@@ -90,8 +90,13 @@ public class Manager {
 					try {
 						sock.receive(packet);
 						System.out.println("Received : "+packet.getAddress().toString());
-						if(Manager.set != null)
-							Manager.set.put(packet.getAddress().toString(), new Stato(true,false));
+						if(Manager.set != null) {
+							//verifica se è già presente
+							if(Manager.set.containsKey(packet.getAddress().toString()))
+								Manager.set.get(packet.getAddress().toString()).setAlive(System.currentTimeMillis()); // aggiorna solo il ttl
+							else 
+								Manager.set.put(packet.getAddress().toString(), new Stato(System.currentTimeMillis(),false)); //aggiunge uno nuovo
+						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -104,6 +109,21 @@ public class Manager {
 		
 		Thread t = new Thread(runnable);
 		t.start();
+	}
+	
+	public void refreshAlive() {
+		Runnable runnable = new Runnable() {
+
+			@Override
+			public void run() {
+				
+			}
+			
+		};
+		
+		Thread t = new Thread(runnable);
+		t.start();
+		
 	}
 	
 	public void statusNetwork() {

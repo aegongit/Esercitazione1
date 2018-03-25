@@ -2,24 +2,36 @@ package scanner;
 
 public class Stato {
 
-	private Boolean alive;
+	private final static long EXPIRE = 60000; //un minuto
+	private long ttl;
 	private Boolean connected;
 	
-	public Stato(Boolean alive, Boolean connected) {
-		this.alive = alive;
+	public Stato(long alive, Boolean connected) {
+		this.ttl = alive;
 		this.connected = connected;
 	}
-	public Boolean getAlive() {
-		return alive;
+	public long getAlive() {
+		return ttl;
 	}
-	public void setAlive(Boolean alive) {
-		this.alive = alive;
+	public void setAlive(long alive) {
+		this.ttl = alive;
 	}
-	public Boolean getConnected() {
+	public Boolean isConnected() {
 		return connected;
 	}
 	public void setConnected(Boolean connected) {
 		this.connected = connected;
+	}
+	
+	/**
+	 * Metodo  che  verifica  se il dispositivo è alive
+	 * @return true/false rispettivamnete alive/not alive
+	 */
+	public Boolean isAlive() {
+		//System.out.println(System.currentTimeMillis() -this.ttl);
+		if ((System.currentTimeMillis() -this.ttl)>=Stato.EXPIRE)
+			return false;
+		return true;
 	}
 	
 }
