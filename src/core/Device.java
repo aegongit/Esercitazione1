@@ -100,7 +100,7 @@ public class Device {
 							socket.connect(addr1, PORTUDP);
 							DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(),addr1, PORTUDP);
 							socket.send(hi);
-							
+							socket.close();
 							//connessione TCP 
 							
 							// Innanzitutto creiamo la socket
