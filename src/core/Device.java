@@ -45,7 +45,7 @@ public class Device {
 	
 	public Device(long t) {
 		this.last_update = t;
-		this.alive = false;
+		this.alive = true;
 	}
 	
 
