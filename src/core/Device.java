@@ -21,6 +21,7 @@ public class Device {
 
 	private final String multicastAddress = "224.0.0.1";
 	private final int PORT = 7777;
+	private final int PORTTCP = 7778;
 	private final int MAX = 65507;
 	
 	private Socket sockTCP ;
@@ -67,7 +68,7 @@ public class Device {
 							// Innanzitutto creiamo la socket
 							String ipServer = addr1.toString();
 							if (sockTCP != null)
-								sockTCP = new Socket(ipServer,PORT);
+								sockTCP = new Socket(ipServer,PORTTCP);
 
 
 							// Inviamo la stringa, usando un PrintWriter

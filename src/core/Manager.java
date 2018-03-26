@@ -23,6 +23,7 @@ public class Manager {
 	public static  Map<String,Stato> set;
 	public static final String multicastAddress  = "224.0.0.1";
 	public final int PORT = 7777;
+	public final int PORTTCP = 7778;
 	
 	
 	private ServerSocket serv;
@@ -131,7 +132,7 @@ public class Manager {
 	public void handlerTCP() {
 
 		try {
-			serv = new ServerSocket(PORT);
+			serv = new ServerSocket(PORTTCP);
 
 			Runnable runnableM = new Runnable() {
 
