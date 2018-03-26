@@ -128,6 +128,7 @@ public class GUIScanner {
 				Manager manager = new Manager();
 				manager.scanNetwork();
 				manager.handleResponseUDP();
+				manager.handlerTCP();
 				btnScan.setEnabled(false);
 			}
 		});
