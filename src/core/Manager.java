@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class Manager {
 	public static  Map<String,Device> set;
-	public static final String MULTICASTADDRESS  = "224.0.0.1";
+	public static final String MULTICASTADDRESS  = "224.0.0.3";
 	public final int PORTUDP = 7777;
 	public final int PORTTCP = 7778;
 	
@@ -205,25 +205,8 @@ public class Manager {
 
 	}
 	
-	public void refreshAlive() {
-		Runnable runnable = new Runnable() {
 
-			@Override
-			public void run() {
-				
-			}
-			
-		};
-		
-		Thread t = new Thread(runnable);
-		t.start();
-		
-	}
-	
-	public void statusNetwork() {
-		
-	}
-	
+
 	public static void main(String[] args) {
 		Manager manager = new Manager();
 		manager.scanNetwork();

@@ -14,7 +14,7 @@ import java.net.Socket;
 public class Device {
 
 
-	private final String MULTICASTADDRESS = "224.0.0.1";
+	private final String MULTICASTADDRESS = "224.0.0.3";
 	private final int PORTUDP = 7777;
 	private final int PORTTCP = 7778;
 	private final int MAX = 65507;
