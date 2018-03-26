@@ -1,26 +1,21 @@
 package core;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.io.Writer;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Device {
 
 
-	private final String multicastAddress = "224.0.0.1";
-	private final int PORT = 7777;
+	private final String MULTICASTADDRESS = "224.0.0.1";
+	private final int PORTUDP = 7777;
 	private final int PORTTCP = 7778;
 	private final int MAX = 65507;
 	
@@ -80,8 +75,8 @@ public class Device {
 
 	public void handlerUDP() {
 		try {
-			final MulticastSocket sock = new MulticastSocket(PORT);
-			InetAddress addr = InetAddress.getByName(multicastAddress);
+			final MulticastSocket sock = new MulticastSocket(PORTUDP);
+			InetAddress addr = InetAddress.getByName(MULTICASTADDRESS);
 			sock.joinGroup(addr);
 
 
@@ -102,8 +97,8 @@ public class Device {
 							System.out.println("Ricevuti: "+packet.getData().toString()+" byte");
 							DatagramSocket socket = new DatagramSocket();
 							InetAddress addr1 = packet.getAddress();
-							socket.connect(addr1, PORT);
-							DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(),addr1, PORT);
+							socket.connect(addr1, PORTUDP);
+							DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(),addr1, PORTUDP);
 							socket.send(hi);
 							
 							//connessione TCP 

@@ -21,8 +21,8 @@ import java.util.Map;
 
 public class Manager {
 	public static  Map<String,Device> set;
-	public static final String multicastAddress  = "224.0.0.1";
-	public final int PORT = 7777;
+	public static final String MULTICASTADDRESS  = "224.0.0.1";
+	public final int PORTUDP = 7777;
 	public final int PORTTCP = 7778;
 	
 	
@@ -53,13 +53,13 @@ public class Manager {
 				byte[] mess = {'S', 'C', 'A', 'N'};
 				InetAddress addr = null;
 				try {
-					addr = InetAddress.getByName(multicastAddress);
+					addr = InetAddress.getByName(MULTICASTADDRESS);
 				} catch (UnknownHostException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
-				DatagramPacket packet=new DatagramPacket(mess, mess.length, addr, PORT);
+				DatagramPacket packet=new DatagramPacket(mess, mess.length, addr, PORTUDP);
 				
 				while (true) {
 					try {
@@ -89,7 +89,7 @@ public class Manager {
 			public void run() {
 				DatagramSocket sock = null;
 				try {
-					sock = new DatagramSocket(PORT);
+					sock = new DatagramSocket(PORTUDP);
 				} catch (SocketException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
