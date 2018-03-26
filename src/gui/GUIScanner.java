@@ -140,6 +140,58 @@ public class GUIScanner {
 		frame.getContentPane().add(label);
 		
 		
+		Runnable refreshStatus = new Runnable() {
+
+			@Override
+			public void run() {
+				while(true) {
+				Iterator i =  Manager.set.keySet().iterator();
+				int count = 0;
+				
+				
+				while(i.hasNext()) {
+					count ++;
+					String key = (String) i.next();
+					Device device = Manager.set.get(key);
+					JLabel  l = find(key);
+					if( l != null) {
+						lblNewLabel.removeFirstOccurrence(l);
+						frame.getContentPane().remove(l);
+
+					}
+
+					JLabel tmpLabel = new JLabel(key);
+					lblNewLabel.add(tmpLabel);
+					System.out.println("Last update: "+(System.currentTimeMillis()-device.getLast_update()));
+					if(device.isAlive() && !device.isExpired())
+						tmpLabel.setForeground(Color.GREEN);
+					else {
+						tmpLabel.setForeground(Color.GRAY);
+						System.out.println(tmpLabel.getText());
+
+					}
+
+					tmpLabel.setBounds(23, 60+(count*10), 104, 20+(count*10));
+					frame.getContentPane().add(tmpLabel);
+
+					frame.repaint();
+
+					
+				}
+				
+				try {
+					Thread.sleep(10000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+				
+			}};
+			
+			Thread refreshStatusT = new Thread(refreshStatus);
+			refreshStatusT.start();
+		
 		
 		
 	}
