@@ -26,14 +26,47 @@ public class Device {
 	
 	private Socket sockTCP = null;
 	
+	
+	private final static long EXPIRE = 60000; //un minuto
+	
+	private long last_update ;
+	
+	
 	public Device() {
-		handlerUDP();
+		last_update= 0;
 		
+	}
+	
+	public Device(long t) {
+		this.last_update = t;
 	}
 	
 
 	
-	private void handlerUDP() {
+	public long getLast_update() {
+		return last_update;
+	}
+
+
+
+	public void setLast_update(long last_update) {
+		this.last_update = last_update;
+	}
+	
+	/**
+	 * Metodo  che  verifica  se il dispositivo è alive
+	 * @return true/false rispettivamnete alive/not alive
+	 */
+	public Boolean isAlive() {
+		//System.out.println(System.currentTimeMillis() -this.ttl);
+		if ((System.currentTimeMillis() - this.last_update)>=Device.EXPIRE)
+			return false;
+		return true;
+	}
+
+
+
+	public void handlerUDP() {
 		try {
 			final MulticastSocket sock = new MulticastSocket(PORT);
 			InetAddress addr = InetAddress.getByName(multicastAddress);
@@ -117,6 +150,7 @@ public class Device {
 	public static void  main(String [] s) {
 		
 		Device d= new Device();
+		d.handlerUDP();
 		
 
 	}

@@ -20,7 +20,7 @@ import java.util.Map;
 
 
 public class Manager {
-	public static  Map<String,Stato> set;
+	public static  Map<String,Device> set;
 	public static final String multicastAddress  = "224.0.0.1";
 	public final int PORT = 7777;
 	public final int PORTTCP = 7778;
@@ -30,7 +30,7 @@ public class Manager {
 	
 	public Manager() {
 		if(set == null) {
-			set  = new HashMap<String, Stato>();
+			set  = new HashMap<String, Device>();
 		
 		}
 	}
@@ -103,17 +103,16 @@ public class Manager {
 					try {
 						sock.receive(packet);
 						System.out.println("Received : "+packet.getAddress().toString());
-						if(Manager.set != null) {
+						/*if(Manager.set != null) {
 							//verifica se è già presente
 							synchronized (Manager.set) {
 								if (Manager.set.containsKey(packet.getAddress().toString()))
-									Manager.set.get(packet.getAddress().toString())
-											.setAlive(System.currentTimeMillis()); // aggiorna solo il ttl
+									Manager.set.get(packet.getAddress().toString()).setLast_update(System.currentTimeMillis()); // aggiorna solo il ttl
 								else
 									Manager.set.put(packet.getAddress().toString(),
-											new Stato(System.currentTimeMillis(), false)); // aggiunge uno nuovo
+											new Device(System.currentTimeMillis())); // aggiunge uno nuovo
 							}
-						}
+						}*/
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -155,10 +154,10 @@ public class Manager {
 										if(s.equals("ALIVE"))
 											synchronized (Manager.set) {
 												if (Manager.set.containsKey(sock.getInetAddress().toString()))
-													Manager.set.get(sock.getInetAddress().toString()).setAlive(System.currentTimeMillis()); // aggiorna solo il ttl
+													Manager.set.get(sock.getInetAddress().toString()).setLast_update(System.currentTimeMillis()); // aggiorna solo il ttl
 												else
 													Manager.set.put(sock.getInetAddress().toString(),
-															new Stato(System.currentTimeMillis(), true)); // aggiunge uno nuovo
+															new Device(System.currentTimeMillis())); // aggiunge uno nuovo
 											}
 
 

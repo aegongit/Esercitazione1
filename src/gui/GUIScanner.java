@@ -30,8 +30,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import core.Device;
 import core.Manager;
-import core.Stato;
+
 
 import java.awt.Canvas;
 import java.awt.Font;
@@ -87,7 +88,7 @@ public class GUIScanner {
 				while(i.hasNext()) {
 					count ++;
 					String key = (String) i.next();
-					Stato b = Manager.set.get(key);
+					Device b = Manager.set.get(key);
 					JLabel  l = find(key);
 					if( l != null) {
 						lblNewLabel.removeFirstOccurrence(l);
@@ -98,10 +99,8 @@ public class GUIScanner {
 					JLabel tmpLabel = new JLabel(key);
 					lblNewLabel.add(tmpLabel);
 					System.out.println("Alive: "+b.isAlive());
-					if(b.isConnected())
+					if(b.isAlive())
 						tmpLabel.setForeground(Color.GREEN);
-					else if(b.isAlive())
-						tmpLabel.setForeground(Color.BLUE);
 					else {
 						tmpLabel.setForeground(Color.GRAY);
 						System.out.println(tmpLabel.getText());
