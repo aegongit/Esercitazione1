@@ -21,7 +21,8 @@ import core.Manager;
 public class GUIScanner {
 
 	private JFrame frame;
-	LinkedList<JLabel> lblNewLabel;
+	private LinkedList<JLabel> lblNewLabel;
+	private Manager manager;
 
 	/**
 	 * Launch the application.
@@ -55,12 +56,13 @@ public class GUIScanner {
 		frame.setBounds(100, 100, 376, 504);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		manager  = new Manager();
 		
 		JButton btnNewButton = new JButton("Stato");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				Manager m = new Manager();
+				
 				Iterator i =  Manager.set.keySet().iterator();
 				int count = 0;
 				
@@ -104,11 +106,12 @@ public class GUIScanner {
 		JButton btnScan = new JButton("Scan");
 		btnScan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Manager manager = new Manager();
+				
 				manager.scanNetwork();
 				manager.handleResponseUDP();
 				manager.handlerTCP();
 				btnScan.setEnabled(false);
+				
 			}
 		});
 		btnScan.setBounds(46, 11, 89, 23);
@@ -119,18 +122,22 @@ public class GUIScanner {
 		lblNewLabel_1.setBounds(10, 54, 89, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblAlive = new JLabel("Alive/");
-		lblAlive.setBounds(89, 54, 31, 14);
+		JLabel lblAlive = new JLabel("Disconneted");
+		lblAlive.setBounds(154, 54, 102, 14);
 		frame.getContentPane().add(lblAlive);
-		lblAlive.setForeground(Color.BLUE);
+		lblAlive.setForeground(Color.GRAY);
 		lblAlive.setBackground(Color.BLUE);
 		lblAlive.setHorizontalAlignment(SwingConstants.LEFT);
 		
 		JLabel lblConnected = new JLabel("Connected");
 		lblConnected.setHorizontalAlignment(SwingConstants.LEFT);
-		lblConnected.setBounds(119, 54, 89, 14);
+		lblConnected.setBounds(92, 54, 52, 14);
 		frame.getContentPane().add(lblConnected);
 		lblConnected.setForeground(Color.GREEN);
+		
+		JLabel label = new JLabel("/");
+		label.setBounds(146, 54, 10, 14);
+		frame.getContentPane().add(label);
 		
 		
 		

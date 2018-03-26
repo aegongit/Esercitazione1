@@ -102,17 +102,8 @@ public class Manager {
 				while (true) {
 					try {
 						sock.receive(packet);
-						System.out.println("Received : "+packet.getAddress().toString());
-						/*if(Manager.set != null) {
-							//verifica se è già presente
-							synchronized (Manager.set) {
-								if (Manager.set.containsKey(packet.getAddress().toString()))
-									Manager.set.get(packet.getAddress().toString()).setLast_update(System.currentTimeMillis()); // aggiorna solo il ttl
-								else
-									Manager.set.put(packet.getAddress().toString(),
-											new Device(System.currentTimeMillis())); // aggiunge uno nuovo
-							}
-						}*/
+						System.out.println("Packet UDP Received from : "+packet.getAddress().toString());
+						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -168,7 +159,7 @@ public class Manager {
 
 									}catch(IOException exc) {
 										System.out.println("Eccezzione I/O:"+exc);
-										Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo il ttl
+										Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
 										break;
 										
 									}finally {
@@ -187,8 +178,7 @@ public class Manager {
 							Thread td = new Thread(server);
 							td.start();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							System.out.println(e.getMessage());
 						}
 
 					}
@@ -199,8 +189,7 @@ public class Manager {
 			Thread threadM = new Thread(runnableM);
 			threadM.start();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 
 	}
