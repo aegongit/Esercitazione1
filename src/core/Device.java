@@ -66,8 +66,8 @@ public class Device {
 							//connessione TCP 
 							
 							// Innanzitutto creiamo la socket
-							System.out.println("#################"+addr1.toString());
-							String ipServer = addr1.toString();
+							System.out.println("#################"+addr1.getHostAddress());
+							String ipServer = addr1.getHostAddress();
 							if (sockTCP != null)
 								sockTCP = new Socket(ipServer,PORTTCP);
 
