@@ -31,6 +31,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Canvas;
+import java.awt.Font;
+import java.awt.Panel;
 
 public class GUIScanner {
 
@@ -103,7 +107,7 @@ public class GUIScanner {
 					
 					}
 					
-					tmpLabel.setBounds(23, 31+(count*10), 104, 20+(count*10));
+					tmpLabel.setBounds(23, 60+(count*10), 104, 20+(count*10));
 					frame.getContentPane().add(tmpLabel);
 					
 					frame.repaint();
@@ -114,7 +118,7 @@ public class GUIScanner {
 			}
 			
 		});
-		btnNewButton.setBounds(192, 11, 89, 23);
+		btnNewButton.setBounds(232, 11, 89, 23);
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnScan = new JButton("Scan");
@@ -123,10 +127,29 @@ public class GUIScanner {
 				Manager manager = new Manager();
 				manager.scanNetwork();
 				manager.handleResponseUDP();
+				btnScan.setEnabled(false);
 			}
 		});
-		btnScan.setBounds(35, 11, 89, 23);
+		btnScan.setBounds(46, 11, 89, 23);
 		frame.getContentPane().add(btnScan);
+		
+		JLabel lblNewLabel_1 = new JLabel("Ip devices");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(10, 54, 89, 14);
+		frame.getContentPane().add(lblNewLabel_1);
+		
+		JLabel lblAlive = new JLabel("Alive/");
+		lblAlive.setBounds(89, 54, 31, 14);
+		frame.getContentPane().add(lblAlive);
+		lblAlive.setForeground(Color.BLUE);
+		lblAlive.setBackground(Color.BLUE);
+		lblAlive.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		JLabel lblConnected = new JLabel("Connected");
+		lblConnected.setHorizontalAlignment(SwingConstants.LEFT);
+		lblConnected.setBounds(119, 54, 89, 14);
+		frame.getContentPane().add(lblConnected);
+		lblConnected.setForeground(Color.GREEN);
 		
 		
 		
