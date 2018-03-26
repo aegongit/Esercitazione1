@@ -66,12 +66,12 @@ public class Device {
 							//connessione TCP 
 							
 							// Innanzitutto creiamo la socket
-							System.out.println("#################"+addr1.getHostAddress());
+							
 							String ipServer = addr1.getHostAddress();
 							if (sockTCP != null)
 								sockTCP = new Socket(ipServer,PORTTCP);
 
-
+							System.out.println("#################"+sockTCP.toString());
 							// Inviamo la stringa, usando un PrintWriter
 							OutputStream os = sockTCP.getOutputStream();
 							Writer wr = new OutputStreamWriter(os,"UTF-8");
