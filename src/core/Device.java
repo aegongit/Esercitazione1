@@ -68,10 +68,10 @@ public class Device {
 							// Innanzitutto creiamo la socket
 							
 							String ipServer = addr1.getHostAddress();
-							if (sockTCP != null)
+							if (sockTCP == null)
 								sockTCP = new Socket(ipServer,PORTTCP);
 
-							System.out.println("#################"+sockTCP.toString());
+							
 							// Inviamo la stringa, usando un PrintWriter
 							OutputStream os = sockTCP.getOutputStream();
 							Writer wr = new OutputStreamWriter(os,"UTF-8");

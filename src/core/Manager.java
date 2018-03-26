@@ -150,7 +150,8 @@ public class Manager {
 									try {
 										BufferedReader brd = new BufferedReader(new InputStreamReader(sock.getInputStream(),"UTF-8"));
 										String s = brd.readLine();
-
+										
+										System.out.println("Risposta :"+s);
 										if(s.equals("ALIVE"))
 											synchronized (Manager.set) {
 												if (Manager.set.containsKey(sock.getInetAddress().toString()))
