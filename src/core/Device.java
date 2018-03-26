@@ -1,10 +1,19 @@
 package core;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Device {
@@ -14,11 +23,14 @@ public class Device {
 	private final int PORT = 7777;
 	private final int MAX = 65507;
 	
+	private Socket sockTCP ;
+	
 	public Device() {
 		handlerUDP();
-		//handlerTcp();
+		
 	}
 	
+
 	
 	private void handlerUDP() {
 		try {
@@ -49,10 +61,33 @@ public class Device {
 							socket.connect(addr1, PORT);
 							DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(),addr1, PORT);
 							socket.send(hi);
+							
+							//connessione TCP 
+							
+							// Innanzitutto creiamo la socket
+							String ipServer = addr1.toString();
+							if (sockTCP != null)
+								sockTCP = new Socket(ipServer,PORT);
+
+
+							// Inviamo la stringa, usando un PrintWriter
+							OutputStream os = sockTCP.getOutputStream();
+							Writer wr = new OutputStreamWriter(os,"UTF-8");
+							PrintWriter prw = new PrintWriter(wr);
+							prw.println("ALIVE");
+							prw.flush();
+							
+							
 							System.out.println("Inviato");
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+							try {
+								sockTCP.close();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							sock.close();
 						}
 					}
