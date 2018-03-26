@@ -68,11 +68,11 @@ public class Device {
 		
 		if ((System.currentTimeMillis() - this.last_update)>=Device.EXPIRE) {
 			
-			return false;
+			return true;
 		}
 		
 		
-		return true;
+		return false;
 	}
 	
 	
