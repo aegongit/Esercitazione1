@@ -92,10 +92,14 @@ public class Manager {
 						System.out.println("Received : "+packet.getAddress().toString());
 						if(Manager.set != null) {
 							//verifica se è già presente
-							if(Manager.set.containsKey(packet.getAddress().toString()))
-								Manager.set.get(packet.getAddress().toString()).setAlive(System.currentTimeMillis()); // aggiorna solo il ttl
-							else 
-								Manager.set.put(packet.getAddress().toString(), new Stato(System.currentTimeMillis(),false)); //aggiunge uno nuovo
+							synchronized (Manager.set) {
+								if (Manager.set.containsKey(packet.getAddress().toString()))
+									Manager.set.get(packet.getAddress().toString())
+											.setAlive(System.currentTimeMillis()); // aggiorna solo il ttl
+								else
+									Manager.set.put(packet.getAddress().toString(),
+											new Stato(System.currentTimeMillis(), false)); // aggiunge uno nuovo
+							}
 						}
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
