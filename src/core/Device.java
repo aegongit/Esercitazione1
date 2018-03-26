@@ -24,7 +24,7 @@ public class Device {
 	private final int PORTTCP = 7778;
 	private final int MAX = 65507;
 	
-	private Socket sockTCP ;
+	private Socket sockTCP = null;
 	
 	public Device() {
 		handlerUDP();
@@ -66,6 +66,7 @@ public class Device {
 							//connessione TCP 
 							
 							// Innanzitutto creiamo la socket
+							System.out.println("#################"+addr1.toString());
 							String ipServer = addr1.toString();
 							if (sockTCP != null)
 								sockTCP = new Socket(ipServer,PORTTCP);
