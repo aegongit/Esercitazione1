@@ -164,6 +164,7 @@ public class Manager {
 
 									}catch(IOException exc) {
 										System.out.println("Eccezzione I/O:"+exc);
+										
 									}finally {
 										try {sock.close();}
 										catch(IOException exc2) {}

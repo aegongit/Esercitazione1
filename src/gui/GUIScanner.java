@@ -4,25 +4,9 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.AbstractListModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ListSelectionModel;
-
-import java.awt.List;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
-
-
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -33,10 +17,6 @@ import javax.swing.SwingConstants;
 import core.Device;
 import core.Manager;
 
-
-import java.awt.Canvas;
-import java.awt.Font;
-import java.awt.Panel;
 
 public class GUIScanner {
 
@@ -99,7 +79,7 @@ public class GUIScanner {
 					JLabel tmpLabel = new JLabel(key);
 					lblNewLabel.add(tmpLabel);
 					System.out.println("Alive: "+b.isAlive());
-					if(b.isAlive())
+					if(b.isAlive() && !b.isExpired())
 						tmpLabel.setForeground(Color.GREEN);
 					else {
 						tmpLabel.setForeground(Color.GRAY);

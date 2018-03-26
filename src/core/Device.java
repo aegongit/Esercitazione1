@@ -30,15 +30,22 @@ public class Device {
 	private final static long EXPIRE = 60000; //un minuto
 	
 	private long last_update ;
+	private boolean alive;
 	
 	
+	public void setAlive(boolean alive) {
+		this.alive = alive;
+	}
+
 	public Device() {
 		last_update= 0;
+		this.alive=false;
 		
 	}
 	
 	public Device(long t) {
 		this.last_update = t;
+		this.alive = false;
 	}
 	
 
@@ -57,11 +64,20 @@ public class Device {
 	 * Metodo  che  verifica  se il dispositivo è alive
 	 * @return true/false rispettivamnete alive/not alive
 	 */
-	public Boolean isAlive() {
-		//System.out.println(System.currentTimeMillis() -this.ttl);
-		if ((System.currentTimeMillis() - this.last_update)>=Device.EXPIRE)
+	public Boolean isExpired() {
+		
+		if ((System.currentTimeMillis() - this.last_update)>=Device.EXPIRE) {
+			
 			return false;
+		}
+		
+		
 		return true;
+	}
+	
+	
+	public boolean isAlive() {
+		return this.alive;
 	}
 
 
