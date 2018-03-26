@@ -150,9 +150,10 @@ public class Manager {
 													System.out.println("Aggiorna");
 													Manager.set.get(sock.getInetAddress().toString()).setLast_update(System.currentTimeMillis()); // aggiorna solo il ttl
 												}
-													else
+												else
 													Manager.set.put(sock.getInetAddress().toString(),
 															new Device(System.currentTimeMillis())); // aggiunge uno nuovo
+												Manager.set.notifyAll();
 											}
 
 										

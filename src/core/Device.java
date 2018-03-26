@@ -118,7 +118,7 @@ public class Device {
 							prw.flush();
 							
 							
-							System.out.println("Inviato");
+							System.out.println("Packet UDP ALIVE sended to:"+sockTCP.getInetAddress());
 						} catch (IOException e) {
 							System.out.println(e.getMessage());
 							try {

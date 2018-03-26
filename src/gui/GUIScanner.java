@@ -70,7 +70,7 @@ public class GUIScanner {
 				while(i.hasNext()) {
 					count ++;
 					String key = (String) i.next();
-					Device b = Manager.set.get(key);
+					Device device = Manager.set.get(key);
 					JLabel  l = find(key);
 					if( l != null) {
 						lblNewLabel.removeFirstOccurrence(l);
@@ -80,8 +80,8 @@ public class GUIScanner {
 					
 					JLabel tmpLabel = new JLabel(key);
 					lblNewLabel.add(tmpLabel);
-					System.out.println("Last update: "+(System.currentTimeMillis()-b.getLast_update()));
-					if(b.isAlive() && !b.isExpired())
+					System.out.println("Last update: "+(System.currentTimeMillis()-device.getLast_update()));
+					if(device.isAlive() && !device.isExpired())
 						tmpLabel.setForeground(Color.GREEN);
 					else {
 						tmpLabel.setForeground(Color.GRAY);
