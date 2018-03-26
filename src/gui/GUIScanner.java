@@ -12,9 +12,6 @@ import javax.swing.AbstractListModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ListSelectionModel;
 
-import scanner.Manager;
-import scanner.Stato;
-
 import java.awt.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +29,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import core.Manager;
+import core.Stato;
+
 import java.awt.Canvas;
 import java.awt.Font;
 import java.awt.Panel;
