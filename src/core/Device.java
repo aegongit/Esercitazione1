@@ -66,12 +66,8 @@ public class Device {
 	 */
 	public boolean isExpired() {
 		
-		if ((System.currentTimeMillis() - this.last_update)>=Device.EXPIRE) {
-			
+		if ((System.currentTimeMillis() - this.last_update)>=Device.EXPIRE)
 			return true;
-		}
-		
-		
 		return false;
 	}
 	
@@ -87,8 +83,6 @@ public class Device {
 			final MulticastSocket sock = new MulticastSocket(PORT);
 			InetAddress addr = InetAddress.getByName(multicastAddress);
 			sock.joinGroup(addr);
-
-
 
 
 			Runnable runnable = new Runnable() {
@@ -131,31 +125,24 @@ public class Device {
 							
 							System.out.println("Inviato");
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							System.out.println(e.getMessage());
 							try {
 								sockTCP.close();
 							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
+								System.out.println(e1.getMessage());
 							}
 							sock.close();
 						}
 					}
 
-
-
-
 				}
-
 
 			};
 
 			Thread t = new Thread(runnable);
 			t.start();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			//sock.leaveGroup(addr);
 			//sock.close();
 		}
