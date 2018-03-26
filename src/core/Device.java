@@ -64,7 +64,7 @@ public class Device {
 	 * Metodo  che  verifica  se il dispositivo è alive
 	 * @return true/false rispettivamnete alive/not alive
 	 */
-	public Boolean isExpired() {
+	public boolean isExpired() {
 		
 		if ((System.currentTimeMillis() - this.last_update)>=Device.EXPIRE) {
 			

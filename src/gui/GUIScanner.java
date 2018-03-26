@@ -73,12 +73,12 @@ public class GUIScanner {
 					if( l != null) {
 						lblNewLabel.removeFirstOccurrence(l);
 						frame.getContentPane().remove(l);
-						System.out.println("del");
+						
 					}
 					
 					JLabel tmpLabel = new JLabel(key);
 					lblNewLabel.add(tmpLabel);
-					System.out.println("Alive: "+b.isAlive());
+					System.out.println("Last update: "+(System.currentTimeMillis()-b.getLast_update()));
 					if(b.isAlive() && !b.isExpired())
 						tmpLabel.setForeground(Color.GREEN);
 					else {

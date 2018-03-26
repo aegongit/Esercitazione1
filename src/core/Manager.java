@@ -146,6 +146,7 @@ public class Manager {
 
 								@Override
 								public void run() {
+									while(true) {
 									try {
 										BufferedReader brd = new BufferedReader(new InputStreamReader(sock.getInputStream(),"UTF-8"));
 										String s = brd.readLine();
@@ -154,23 +155,27 @@ public class Manager {
 										if(s.equals("ALIVE"))
 											synchronized (Manager.set) {
 												if (Manager.set.containsKey(sock.getInetAddress().toString()))
+												{
+													System.out.println("Aggiorna");
 													Manager.set.get(sock.getInetAddress().toString()).setLast_update(System.currentTimeMillis()); // aggiorna solo il ttl
-												else
+												}
+													else
 													Manager.set.put(sock.getInetAddress().toString(),
 															new Device(System.currentTimeMillis())); // aggiunge uno nuovo
 											}
 
-
+										
 
 									}catch(IOException exc) {
 										System.out.println("Eccezzione I/O:"+exc);
-										Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo alive
+										
 										
 									}finally {
-										try {sock.close();}
-										catch(IOException exc2) {}
+										//System.out.println("Connessione tcp chisa");
+										//try {sock.close();}
+										//catch(IOException exc2) {}
 									}
-
+									}
 
 								}
 
@@ -178,8 +183,8 @@ public class Manager {
 
 
 
-							Thread t = new Thread(server);
-							t.start();
+							Thread td = new Thread(server);
+							td.start();
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
