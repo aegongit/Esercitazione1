@@ -154,6 +154,7 @@ public class Manager {
 											}
 
 										
+										
 
 									}catch(IOException exc) {
 										System.out.println("Eccezzione I/O:"+exc);
