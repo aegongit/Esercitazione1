@@ -157,7 +157,7 @@ public class Manager {
 									}catch(IOException exc) {
 										System.out.println("Eccezzione I/O:"+exc);
 										Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
-										break;
+										
 										
 									}finally {
 										//System.out.println("Connessione tcp chisa");
