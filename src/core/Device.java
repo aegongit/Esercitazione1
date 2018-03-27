@@ -21,16 +21,7 @@ public class Device {
 	
 	private Socket sockTCP = null;
 	
-	
-	
-	
-	
-
-	
-	
-	
-
-	
+		
 
 
 
