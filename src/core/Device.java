@@ -14,68 +14,30 @@ import java.net.Socket;
 public class Device {
 
 
-	private final String MULTICASTADDRESS = "224.0.0.3";
-	private final int PORTUDP = 7777;
-	private final int PORTTCP = 7778;
+	private final String MULTICASTADDRESS = "224.0.0.1";
+	private final int UDP_PORT = 7777;
+	private final int TCP_PORT = 7778;
 	private final int MAX = 65507;
 	
 	private Socket sockTCP = null;
 	
 	
-	private final static long EXPIRE = 60000; //un minuto
-	
-	private long last_update ;
-	private boolean alive;
 	
 	
-	public void setAlive(boolean alive) {
-		this.alive = alive;
-	}
-
-	public Device() {
-		last_update= 0;
-		this.alive=false;
-		
-	}
-	
-	public Device(long t) {
-		this.last_update = t;
-		this.alive = true;
-	}
 	
 
 	
-	public long getLast_update() {
-		return last_update;
-	}
-
-
-
-	public void setLast_update(long last_update) {
-		this.last_update = last_update;
-	}
-	
-	/**
-	 * Metodo  che  verifica  se il dispositivo è alive
-	 * @return true/false rispettivamnete alive/not alive
-	 */
-	public boolean isExpired() {
-		
-		if ((System.currentTimeMillis() - this.last_update)>=Device.EXPIRE)
-			return true;
-		return false;
-	}
 	
 	
-	public boolean isAlive() {
-		return this.alive;
-	}
+
+	
 
 
 
-	public void handlerUDP() {
+
+	public void deviceHandler() {
 		try {
-			final MulticastSocket sock = new MulticastSocket(PORTUDP);
+			final MulticastSocket sock = new MulticastSocket(UDP_PORT);
 			InetAddress addr = InetAddress.getByName(MULTICASTADDRESS);
 			sock.joinGroup(addr);
 
@@ -97,8 +59,8 @@ public class Device {
 							System.out.println("Ricevuti: "+packet.getData().toString()+" byte");
 							DatagramSocket socket = new DatagramSocket();
 							InetAddress addr1 = packet.getAddress();
-							socket.connect(addr1, PORTUDP);
-							DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(),addr1, PORTUDP);
+							socket.connect(addr1, UDP_PORT);
+							DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(),addr1, UDP_PORT);
 							socket.send(hi);
 							socket.close();
 							//connessione TCP 
@@ -107,7 +69,7 @@ public class Device {
 							
 							String ipServer = addr1.getHostAddress();
 							if (sockTCP == null)
-								sockTCP = new Socket(ipServer,PORTTCP);
+								sockTCP = new Socket(ipServer,TCP_PORT);
 
 							
 							// Inviamo la stringa, usando un PrintWriter
@@ -148,7 +110,7 @@ public class Device {
 	public static void  main(String [] s) {
 		
 		Device d= new Device();
-		d.handlerUDP();
+		d.deviceHandler();
 		
 
 	}

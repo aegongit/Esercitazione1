@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import core.Device;
+import core.DeviceInfo;
 import core.Manager;
 
 
@@ -70,7 +71,7 @@ public class GUIScanner {
 				while(i.hasNext()) {
 					count ++;
 					String key = (String) i.next();
-					Device device = Manager.set.get(key);
+					DeviceInfo device = Manager.set.get(key);
 					JLabel  l = find(key);
 					if( l != null) {
 						lblNewLabel.removeFirstOccurrence(l);
@@ -82,7 +83,7 @@ public class GUIScanner {
 					lblNewLabel.add(tmpLabel);
 					System.out.println("Last update: "+(System.currentTimeMillis()-device.getLast_update()));
 					if(device.isAlive() && !device.isExpired())
-						tmpLabel.setForeground(Color.GREEN);
+						tmpLabel.setForeground(Color.BLUE);
 					else {
 						tmpLabel.setForeground(Color.GRAY);
 						System.out.println(tmpLabel.getText());
@@ -123,7 +124,7 @@ public class GUIScanner {
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblAlive = new JLabel("Disconneted");
-		lblAlive.setBounds(154, 54, 102, 14);
+		lblAlive.setBounds(171, 54, 102, 14);
 		frame.getContentPane().add(lblAlive);
 		lblAlive.setForeground(Color.GRAY);
 		lblAlive.setBackground(Color.BLUE);
@@ -131,12 +132,13 @@ public class GUIScanner {
 		
 		JLabel lblConnected = new JLabel("Connected");
 		lblConnected.setHorizontalAlignment(SwingConstants.LEFT);
-		lblConnected.setBounds(92, 54, 52, 14);
+		lblConnected.setBounds(98, 54, 57, 14);
 		frame.getContentPane().add(lblConnected);
-		lblConnected.setForeground(Color.GREEN);
+		lblConnected.setForeground(Color.BLUE);
 		
 		JLabel label = new JLabel("/");
-		label.setBounds(146, 54, 10, 14);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setBounds(154, 54, 14, 14);
 		frame.getContentPane().add(label);
 		
 		
@@ -152,7 +154,7 @@ public class GUIScanner {
 				while(i.hasNext()) {
 					count ++;
 					String key = (String) i.next();
-					Device device = Manager.set.get(key);
+					DeviceInfo device = Manager.set.get(key);
 					JLabel  l = find(key);
 					if( l != null) {
 						lblNewLabel.removeFirstOccurrence(l);
@@ -164,7 +166,7 @@ public class GUIScanner {
 					lblNewLabel.add(tmpLabel);
 					System.out.println("Last update: "+(System.currentTimeMillis()-device.getLast_update()));
 					if(device.isAlive() && !device.isExpired())
-						tmpLabel.setForeground(Color.GREEN);
+						tmpLabel.setForeground(Color.BLUE);
 					else {
 						tmpLabel.setForeground(Color.GRAY);
 						System.out.println(tmpLabel.getText());

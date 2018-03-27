@@ -1,11 +1,7 @@
 package core;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.Reader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -20,17 +16,17 @@ import java.util.Map;
 
 
 public class Manager {
-	public static  Map<String,Device> set;
-	public static final String MULTICASTADDRESS  = "224.0.0.3";
-	public final int PORTUDP = 7777;
-	public final int PORTTCP = 7778;
+	public static  Map<String,DeviceInfo> set;
+	public static final String MULTICASTADDRESS  = "224.0.0.1";
+	public final int UDP_PORT = 7777;
+	public final int TCP_PORT = 7778;
 	
 	
 	private ServerSocket serv;
 	
 	public Manager() {
 		if(set == null) {
-			set  = new HashMap<String, Device>();
+			set  = new HashMap<String, DeviceInfo>();
 		
 		}
 	}
@@ -44,7 +40,6 @@ public class Manager {
 				try {
 					sock = new MulticastSocket();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 					sock.close();
 				}
@@ -55,11 +50,11 @@ public class Manager {
 				try {
 					addr = InetAddress.getByName(MULTICASTADDRESS);
 				} catch (UnknownHostException e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 				
-				DatagramPacket packet=new DatagramPacket(mess, mess.length, addr, PORTUDP);
+				DatagramPacket packet=new DatagramPacket(mess, mess.length, addr, UDP_PORT);
 				
 				while (true) {
 					try {
@@ -67,10 +62,8 @@ public class Manager {
 						Thread.sleep(10000);
 						System.out.println("passati i 10 sec");
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 						sock.close();
 					}
@@ -83,17 +76,14 @@ public class Manager {
 	}
 	
 	public void handleResponseUDP(){
+		try {
+		final DatagramSocket sock = new DatagramSocket(UDP_PORT);
+		
 		Runnable runnable = new Runnable() {
-
+			
 			@Override
 			public void run() {
-				DatagramSocket sock = null;
-				try {
-					sock = new DatagramSocket(PORTUDP);
-				} catch (SocketException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				
 
 				// TODO Auto-generated method stub
 				byte[] mess = new byte[65000];
@@ -114,15 +104,21 @@ public class Manager {
 			
 		};
 		
+		
 		Thread t = new Thread(runnable);
 		t.start();
+		
+	} catch (SocketException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
 	}
 	
 	
 	public void handlerTCP() {
 
 		try {
-			serv = new ServerSocket(PORTTCP);
+			serv = new ServerSocket(TCP_PORT);
 
 			Runnable runnableM = new Runnable() {
 
@@ -152,7 +148,7 @@ public class Manager {
 												}
 												else
 													Manager.set.put(sock.getInetAddress().toString(),
-															new Device(System.currentTimeMillis())); // aggiunge uno nuovo
+															new DeviceInfo(System.currentTimeMillis())); // aggiunge uno nuovo
 												Manager.set.notifyAll();
 											}
 
