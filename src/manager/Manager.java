@@ -65,8 +65,8 @@ public class Manager {
                // while (true) {
                     try {
                         sock.send(packet);
-                        //Thread.sleep(10000);
-                        System.out.println("passati i 10 sec");
+                        
+               
                     } catch (IOException e) {
                         System.out.println("scanNetwork --- send IO except");
                         e.printStackTrace();
@@ -166,9 +166,6 @@ public class Manager {
                                             try {sock.close();}
                                             catch(IOException exc2) {}
                                             break;
-                                        }finally {
-                                                //System.out.println("Connessione tcp chisa");
-                                                
                                         }
                                     }
                                 }

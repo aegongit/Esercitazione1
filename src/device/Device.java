@@ -88,8 +88,11 @@ public class Device {
                         //Creazione Socket
                         String ipServer = ipManager.getHostAddress();
                         System.out.println("############################### "+ipServer);
-                        if (sockTCP == null)
+                        if (sockTCP == null) {
                             sockTCP = new Socket(ipServer,TCP_PORT);
+                            sockTCP.setKeepAlive(true);
+                        }
+                        
                         System.out.println("dopo");
                         // Inviamo la stringa, usando un PrintWriter
                         OutputStream os = sockTCP.getOutputStream();
