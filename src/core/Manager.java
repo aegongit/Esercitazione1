@@ -37,10 +37,10 @@ public class Manager {
         //Si potrebbe splittare questo metodo e fare l'init della socket in un metodo
         //e invio del messaggio in un altro metodo.
         //Così poi dall GUI chiamiamo solo l'invio del messaggio 
-        Runnable runnable = new Runnable() {
+       /* Runnable runnable = new Runnable() {
 
             @Override
-            public void run() {
+            public void run() {*/
                 MulticastSocket sock = null;
                 try {
                     sock = new MulticastSocket();
@@ -70,17 +70,17 @@ public class Manager {
                     } catch (IOException e) {
                         System.out.println("scanNetwork --- send IO except");
                         e.printStackTrace();
-                    } /*catch (InterruptedException e) {
+                    }/* catch (InterruptedException e) {
                         System.out.println("scanNetwork --- send except");
                         e.printStackTrace();
                         sock.close();
                     }*/
                 //}
-            }
+            /*}
 
         };
         Thread t = new Thread(runnable);
-        t.start();
+        t.start();*/
     }
 
     public void handleResponseUDP(){
