@@ -1,4 +1,4 @@
-package core;
+package device;
 
 import java.io.IOException;
 import java.io.OutputStream;

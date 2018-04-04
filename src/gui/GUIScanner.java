@@ -15,9 +15,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import core.Device;
-import core.DeviceInfo;
-import core.Manager;
+import device.Device;
+import manager.DeviceInfo;
+import manager.Manager;
+
 import java.awt.Font;
 import javax.swing.JSeparator;
 

@@ -1,4 +1,4 @@
-package core;
+package manager;
 
 public class DeviceInfo {
 	private long last_update ;
