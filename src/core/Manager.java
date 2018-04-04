@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class Manager {
     public static  Map<String,DeviceInfo> set;
-    public static final String MULTICAST_ADDRESS  = "224.0.0.1";
+    public static final String MULTICAST_ADDRESS  = "224.0.0.2";
     public final int UDP_PORT = 7777;
     public final int TCP_PORT = 7778;
     public final int MAX = 65507;
@@ -141,8 +141,8 @@ public class Manager {
                                         try {
                                             BufferedReader brd = new BufferedReader(new InputStreamReader(sock.getInputStream(),"UTF-8"));
                                             String s = brd.readLine();
-                                            if(s==null)
-                                            	 Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
+                                            //if(s==null)
+                                            	 //Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
                                             
                                             System.out.println("Risposta :"+s);
                                             if(!s.isEmpty() && s.equals("I'm Alive")){ //aggiunto controllo isEmpty
@@ -160,12 +160,15 @@ public class Manager {
                                                 }
                                             }
                                         }catch(IOException exc) {
-                                            System.out.println("handleTCP --- IO except lettura risposta");
-                                            Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
+                                            System.out.println("handleTCP --- IO except lettura risposta "+exc.getMessage());
+                                            exc.printStackTrace();
+                                           // Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
+                                            try {sock.close();}
+                                            catch(IOException exc2) {}
+                                            break;
                                         }finally {
                                                 //System.out.println("Connessione tcp chisa");
-                                                //try {sock.close();}
-                                                //catch(IOException exc2) {}
+                                                
                                         }
                                     }
                                 }
