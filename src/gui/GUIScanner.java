@@ -18,6 +18,8 @@ import javax.swing.SwingConstants;
 import core.Device;
 import core.DeviceInfo;
 import core.Manager;
+import java.awt.Font;
+import javax.swing.JSeparator;
 
 
 public class GUIScanner {
@@ -55,9 +57,10 @@ public class GUIScanner {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		lblNewLabel = new LinkedList<JLabel>();
 		mapSec = new HashMap<String,JLabel>();
-		frame.setBounds(100, 100, 376, 504);
+		frame.setBounds(100, 100, 376, 536);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		manager  = new Manager();
@@ -130,12 +133,13 @@ public class GUIScanner {
 		frame.getContentPane().add(btnScan);
 		
 		JLabel lblNewLabel_1 = new JLabel("Ip devices");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(10, 54, 89, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblAlive = new JLabel("Disconneted");
-		lblAlive.setBounds(219, 425, 102, 14);
+		lblAlive.setBounds(248, 482, 102, 14);
 		frame.getContentPane().add(lblAlive);
 		lblAlive.setForeground(Color.GRAY);
 		lblAlive.setBackground(Color.BLUE);
@@ -143,18 +147,40 @@ public class GUIScanner {
 		
 		JLabel lblConnected = new JLabel("Connected");
 		lblConnected.setHorizontalAlignment(SwingConstants.LEFT);
-		lblConnected.setBounds(146, 425, 57, 14);
+		lblConnected.setBounds(175, 482, 57, 14);
 		frame.getContentPane().add(lblConnected);
 		lblConnected.setForeground(Color.BLUE);
 		
 		JLabel label = new JLabel("/");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setBounds(202, 425, 14, 14);
+		label.setBounds(231, 482, 14, 14);
 		frame.getContentPane().add(label);
 		
 		JLabel lblLastAlive = new JLabel("Last ALIVE");
+		lblLastAlive.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 		lblLastAlive.setBounds(131, 54, 95, 14);
 		frame.getContentPane().add(lblLastAlive);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 37, 47, -3);
+		frame.getContentPane().add(separator);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(10, 45, 340, 14);
+		frame.getContentPane().add(separator_1);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setBounds(10, 71, 340, 11);
+		frame.getContentPane().add(separator_2);
+		
+		JSeparator separator_3 = new JSeparator();
+		separator_3.setOrientation(SwingConstants.VERTICAL);
+		separator_3.setBounds(122, 48, 2, 420);
+		frame.getContentPane().add(separator_3);
+		
+		JSeparator separator_4 = new JSeparator();
+		separator_4.setBounds(10, 467, 350, 2);
+		frame.getContentPane().add(separator_4);
 		
 		
 		Runnable refreshStatus = new Runnable() {

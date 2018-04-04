@@ -4,7 +4,7 @@ public class DeviceInfo {
 	private long last_update ;
 	private boolean alive;
 	
-	private final static long EXPIRE = 30000; //30 sec
+	private final static long EXPIRE = 10000; //10 sec
 	
 	public DeviceInfo() {
             last_update= 0;

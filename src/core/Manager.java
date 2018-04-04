@@ -141,7 +141,9 @@ public class Manager {
                                         try {
                                             BufferedReader brd = new BufferedReader(new InputStreamReader(sock.getInputStream(),"UTF-8"));
                                             String s = brd.readLine();
-
+                                            if(s==null)
+                                            	 Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
+                                            
                                             System.out.println("Risposta :"+s);
                                             if(!s.isEmpty() && s.equals("I'm Alive")){ //aggiunto controllo isEmpty
                                                 synchronized (set) {
@@ -149,6 +151,7 @@ public class Manager {
                                                         {
                                                             System.out.println("Aggiorna");
                                                             Manager.set.get(sock.getInetAddress().toString()).setLast_update(System.currentTimeMillis()); // aggiorna solo il ttl
+                                                            Manager.set.get(sock.getInetAddress().toString()).setAlive(true);
                                                         }
                                                         else
                                                             Manager.set.put(sock.getInetAddress().toString(),
