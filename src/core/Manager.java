@@ -143,7 +143,7 @@ public class Manager {
                                             String s = brd.readLine();
 
                                             System.out.println("Risposta :"+s);
-                                            if(!s.isEmpty() && s.equals("ALIVE")){ //aggiunto controllo isEmpty
+                                            if(!s.isEmpty() && s.equals("I'm Alive")){ //aggiunto controllo isEmpty
                                                 synchronized (set) {
                                                         if (Manager.set.containsKey(sock.getInetAddress().toString()))
                                                         {

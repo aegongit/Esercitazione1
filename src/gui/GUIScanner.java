@@ -67,7 +67,7 @@ public class GUIScanner {
 				Iterator i =  Manager.set.keySet().iterator();
 				int count = 0;
 				
-				
+				JLabel tmpLabelLast1 = new JLabel();
 				while(i.hasNext()) {
 					count ++;
 					String key = (String) i.next();
@@ -80,6 +80,7 @@ public class GUIScanner {
 					}
 					
 					JLabel tmpLabel = new JLabel(key);
+					
 					lblNewLabel.add(tmpLabel);
 					System.out.println("Last update: "+(System.currentTimeMillis()-device.getLast_update()));
 					if(device.isAlive() && !device.isExpired())
@@ -91,10 +92,15 @@ public class GUIScanner {
 					}
 					
 					tmpLabel.setBounds(23, 60+(count*10), 104, 20+(count*10));
+					String timeLast = String.valueOf((System.currentTimeMillis()-device.getLast_update())/1000);
+					JLabel tmpLabelLast = new JLabel(timeLast);
+					tmpLabelLast.setBounds(120,60+(count*10),200,20+(count*10));
+					frame.getContentPane().remove(tmpLabelLast1);
+					frame.getContentPane().add(tmpLabelLast);
 					frame.getContentPane().add(tmpLabel);
 					
 					frame.repaint();
-					
+					tmpLabelLast1=tmpLabelLast;
 					
 				}
 				
