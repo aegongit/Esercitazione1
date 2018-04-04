@@ -64,7 +64,9 @@ public class GUIScanner {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		manager  = new Manager();
-		
+		manager.scanNetwork();
+		manager.handleResponseUDP();
+		manager.handlerTCP();
 		JButton btnNewButton = new JButton("Stato");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -123,9 +125,8 @@ public class GUIScanner {
 			public void actionPerformed(ActionEvent e) {
 				
 				manager.scanNetwork();
-				manager.handleResponseUDP();
-				manager.handlerTCP();
-				btnScan.setEnabled(false);
+				
+				//btnScan.setEnabled(false);
 				
 			}
 		});

@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class Manager {
     public static  Map<String,DeviceInfo> set;
-    public static final String MULTICAST_ADDRESS  = "224.0.0.2";
+    public static final String MULTICAST_ADDRESS  = "224.0.0.1";
     public final int UDP_PORT = 7777;
     public final int TCP_PORT = 7778;
     public final int MAX = 65507;
@@ -62,20 +62,20 @@ public class Manager {
 
                 DatagramPacket packet=new DatagramPacket(mess, mess.length, addr, UDP_PORT);
 
-                while (true) {
+               // while (true) {
                     try {
                         sock.send(packet);
-                        Thread.sleep(10000);
+                        //Thread.sleep(10000);
                         System.out.println("passati i 10 sec");
                     } catch (IOException e) {
                         System.out.println("scanNetwork --- send IO except");
                         e.printStackTrace();
-                    } catch (InterruptedException e) {
+                    } /*catch (InterruptedException e) {
                         System.out.println("scanNetwork --- send except");
                         e.printStackTrace();
                         sock.close();
-                    }
-                }
+                    }*/
+                //}
             }
 
         };
