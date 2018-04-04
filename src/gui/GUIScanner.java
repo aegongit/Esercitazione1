@@ -100,7 +100,7 @@ public class GUIScanner {
 					mapSec.put(tmpLabel.getText(),tmpLabelLast );
 					tmpLabel.setBounds(23, 60+(count*10), 104, 20+(count*10));
 					
-					tmpLabelLast.setBounds(120,60+(count*10),200,20+(count*10));
+					tmpLabelLast.setBounds(127,60+(count*10),200,20+(count*10));
 					frame.getContentPane().add(tmpLabelLast);
 					frame.getContentPane().add(tmpLabel);
 					
@@ -135,7 +135,7 @@ public class GUIScanner {
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblAlive = new JLabel("Disconneted");
-		lblAlive.setBounds(171, 54, 102, 14);
+		lblAlive.setBounds(219, 425, 102, 14);
 		frame.getContentPane().add(lblAlive);
 		lblAlive.setForeground(Color.GRAY);
 		lblAlive.setBackground(Color.BLUE);
@@ -143,14 +143,18 @@ public class GUIScanner {
 		
 		JLabel lblConnected = new JLabel("Connected");
 		lblConnected.setHorizontalAlignment(SwingConstants.LEFT);
-		lblConnected.setBounds(98, 54, 57, 14);
+		lblConnected.setBounds(146, 425, 57, 14);
 		frame.getContentPane().add(lblConnected);
 		lblConnected.setForeground(Color.BLUE);
 		
 		JLabel label = new JLabel("/");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setBounds(154, 54, 14, 14);
+		label.setBounds(202, 425, 14, 14);
 		frame.getContentPane().add(label);
+		
+		JLabel lblLastAlive = new JLabel("Last ALIVE");
+		lblLastAlive.setBounds(131, 54, 95, 14);
+		frame.getContentPane().add(lblLastAlive);
 		
 		
 		Runnable refreshStatus = new Runnable() {
@@ -191,7 +195,7 @@ public class GUIScanner {
 						mapSec.put(tmpLabel.getText(),tmpLabelLast );
 						tmpLabel.setBounds(23, 60+(count*10), 104, 20+(count*10));
 						
-						tmpLabelLast.setBounds(120,60+(count*10),200,20+(count*10));
+						tmpLabelLast.setBounds(127,60+(count*10),200,20+(count*10));
 						frame.getContentPane().add(tmpLabelLast);
 						frame.getContentPane().add(tmpLabel);
 						
