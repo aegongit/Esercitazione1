@@ -159,12 +159,14 @@ public class Manager {
                                                         Manager.set.notifyAll();
                                                 }
                                             }
-                                        }catch(IOException exc) {
+                                        }catch(Exception exc) {
                                             System.out.println("handleTCP --- IO except lettura risposta "+exc.getMessage());
                                             exc.printStackTrace();
                                            // Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
                                             try {sock.close();}
-                                            catch(IOException exc2) {}
+                                            catch(IOException exc2) {
+                                            	exc2.printStackTrace();
+                                            }
                                             break;
                                         }
                                     }
@@ -187,6 +189,14 @@ public class Manager {
         }
     }
 
+    
+    public void shutdown() {
+        try {
+        	serv.close();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
     public static void main(String[] args) {
         Manager manager = new Manager();
         manager.scanNetwork();
