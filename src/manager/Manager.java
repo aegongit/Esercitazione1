@@ -33,116 +33,96 @@ public class Manager {
         }
     }
 
-    public void scanNetwork() {
-        //Si potrebbe splittare questo metodo e fare l'init della socket in un metodo
-        //e invio del messaggio in un altro metodo.
-        //Così poi dall GUI chiamiamo solo l'invio del messaggio 
-       /* Runnable runnable = new Runnable() {
+	public void scanNetwork() {
 
-            @Override
-            public void run() {*/
-                MulticastSocket sock = null;
-                try {
-                    sock = new MulticastSocket();
-                } catch (IOException e1) {
-                    System.out.println("scanNetwork --- Socket exception");
-                    e1.printStackTrace();
-                    sock.close();
-                }
+		MulticastSocket sock = null;
+		try {
+			sock = new MulticastSocket();
+		} catch (IOException e1) {
+			System.out.println("scanNetwork --- Socket exception");
+			e1.printStackTrace();
+			sock.close();
+		}
 
-                // TODO Auto-generated method stub
-                byte[] mess = {'S', 'C', 'A', 'N'};
-                InetAddress addr = null;
-                try {
-                    addr = InetAddress.getByName(MULTICAST_ADDRESS);
-                } catch (UnknownHostException e1) {                       
-                    System.out.println("scanNetwork --- unknown host exception");
-                    e1.printStackTrace();
-                }
+		// TODO Auto-generated method stub
+		byte[] mess = { 'S', 'C', 'A', 'N' };
+		InetAddress addr = null;
+		try {
+			addr = InetAddress.getByName(MULTICAST_ADDRESS);
+		} catch (UnknownHostException e1) {
+			System.out.println("scanNetwork --- unknown host exception");
+			e1.printStackTrace();
+		}
 
-                DatagramPacket packet=new DatagramPacket(mess, mess.length, addr, UDP_PORT);
+		DatagramPacket packet = new DatagramPacket(mess, mess.length, addr, UDP_PORT);
 
-               // while (true) {
-                    try {
-                        sock.send(packet);
-                        
-               
-                    } catch (IOException e) {
-                        System.out.println("scanNetwork --- send IO except");
-                        e.printStackTrace();
-                    }/* catch (InterruptedException e) {
-                        System.out.println("scanNetwork --- send except");
-                        e.printStackTrace();
-                        sock.close();
-                    }*/
-                //}
-            /*}
+		try {
+			sock.send(packet);
 
-        };
-        Thread t = new Thread(runnable);
-        t.start();*/
+		} catch (IOException e) {
+			System.out.println("scanNetwork --- send IO except");
+			e.printStackTrace();
+		}
+
     }
 
-    public void handleResponseUDP(){
-        try {
-            final DatagramSocket sock = new DatagramSocket(UDP_PORT);
+	public void handleResponseUDP() {
+		try {
+			final DatagramSocket sock = new DatagramSocket(UDP_PORT);
 
-            Runnable runnable = new Runnable() {
+			Runnable runnable = new Runnable() {
 
-                @Override
-                public void run() {
+				@Override
+				public void run() {
+					byte[] mess = new byte[MAX];
+					DatagramPacket packet = new DatagramPacket(mess, mess.length);
 
-                    // TODO Auto-generated method stub
-                    byte[] mess = new byte[MAX];
-                    DatagramPacket packet=new DatagramPacket(mess, mess.length);
+					while (true) {
+						try {
+							sock.receive(packet);
+							System.out.println("UDP Packet Received from : " + packet.getAddress().toString());
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							System.out.println("handleResponseUDP --- receive except");
+							e.printStackTrace();
+							sock.close();
+						}
+					}
+				}
+			};
 
-                    while (true) {
-                        try {
-                            sock.receive(packet);
-                            System.out.println("UDP Packet Received from : "+packet.getAddress().toString());
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            System.out.println("handleResponseUDP --- receive except");
-                            e.printStackTrace();
-                            sock.close();
-                        }
-                    }
-                }
-            };
+			Thread t = new Thread(runnable);
+			t.start();
 
-        Thread t = new Thread(runnable);
-        t.start();
-
-        } catch (SocketException e1) {
-            // TODO Auto-generated catch block
-            System.out.println("handleResponseUDP --- socket except");
-            e1.printStackTrace();
-        }
-    }
+		} catch (SocketException e1) {
+			System.out.println("handleResponseUDP --- socket except");
+			e1.printStackTrace();
+		}
+	}
 
 
     public void handlerTCP() {
-        try {
-            serv = new ServerSocket(TCP_PORT);
+		try {
+			serv = new ServerSocket(TCP_PORT);
 
-            Runnable runnableTCP = new Runnable() {
+			Runnable runnableTCP = new Runnable() {
 
-                @Override
-                public void run() {
-                    while(true) {
-                        try {
-                            Socket sock = serv.accept();
+				@Override
+				public void run() {
+					while (true) {
+						try {
+							Socket sock = serv.accept();
 
-                            Runnable server = new Runnable() {
-                                //Questo thread interno sarebbe il thread delegato alla gestione di 1 singolo client?
-                                @Override
-                                public void run() {
-                                    while(true) {
-                                        try {
+							Runnable server = new Runnable() {
+								// Questo thread interno sarebbe il thread delegato alla gestione di 1 singolo
+								// client?
+								@Override
+								public void run() {
+									while (true) {
+										try {
                                             BufferedReader brd = new BufferedReader(new InputStreamReader(sock.getInputStream(),"UTF-8"));
                                             String s = brd.readLine();
-                                            //if(s==null)
-                                            	 //Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
+                                            
                                             
                                             System.out.println("Risposta :"+s);
                                             if(!s.isEmpty() && s.equals("I'm Alive")){ //aggiunto controllo isEmpty
@@ -150,47 +130,45 @@ public class Manager {
                                                         if (Manager.set.containsKey(sock.getInetAddress().toString()))
                                                         {
                                                             System.out.println("Aggiorna");
-                                                            Manager.set.get(sock.getInetAddress().toString()).setLast_update(System.currentTimeMillis()); // aggiorna solo il ttl
-                                                            Manager.set.get(sock.getInetAddress().toString()).setAlive(true);
+                                                            Manager.set.get(sock.getInetAddress().toString()).setLast_update(System.currentTimeMillis());                                                             Manager.set.get(sock.getInetAddress().toString()).setAlive(true);
                                                         }
-                                                        else
-                                                            Manager.set.put(sock.getInetAddress().toString(),
-                                                            new DeviceInfo(System.currentTimeMillis())); // aggiunge uno nuovo
-                                                        Manager.set.notifyAll();
-                                                }
-                                            }
-                                        }catch(Exception exc) {
-                                            System.out.println("handleTCP --- IO except lettura risposta "+exc.getMessage());
-                                           
-                                           // Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
-                                            try {sock.close();}
-                                            catch(IOException exc2) {
-                                            	exc2.printStackTrace();
-                                            }
-                                            
-                                            exc.printStackTrace();
-                                            break;
+													else
+														Manager.set.put(sock.getInetAddress().toString(),new DeviceInfo(System.currentTimeMillis())); // aggiunge uno nuovo
+													Manager.set.notifyAll();
+												}
+											}
+										} catch (Exception exc) {
+											System.out.println(
+													"handleTCP --- IO except lettura risposta " + exc.getMessage());
+
+											try {
+												sock.close();
+											} catch (IOException exc2) {
+												exc2.printStackTrace();
+											}
+
+											exc.printStackTrace();
+											break;
                                         }
                                     }
                                 }
-                            };
-                            Thread threadServer = new Thread(server);
-                            threadServer.start();
-                        } catch (IOException e) {
-                                System.out.println(e.getMessage());
-                                System.out.println("handleTCP --- IO except (runnable server)");
-                        }
-                    }
-                }
-            };
-            Thread threadTCP = new Thread(runnableTCP);
-            threadTCP.start();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            System.out.println("handleTCP --- IO except (runnable TCP)");
-        }
-    }
-
+							};
+							Thread threadServer = new Thread(server);
+							threadServer.start();
+						} catch (IOException e) {
+							System.out.println(e.getMessage());
+							System.out.println("handleTCP --- IO except (runnable server)");
+						}
+					}
+				}
+			};
+			Thread threadTCP = new Thread(runnableTCP);
+			threadTCP.start();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			System.out.println("handleTCP --- IO except (runnable TCP)");
+		}
+	}
     
     public void shutdown() {
         try {
