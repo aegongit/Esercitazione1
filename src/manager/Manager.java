@@ -161,12 +161,14 @@ public class Manager {
                                             }
                                         }catch(Exception exc) {
                                             System.out.println("handleTCP --- IO except lettura risposta "+exc.getMessage());
-                                            exc.printStackTrace();
+                                           
                                            // Manager.set.get(sock.getInetAddress().toString()).setAlive(false); // aggiorna solo l'attributo alive
                                             try {sock.close();}
                                             catch(IOException exc2) {
                                             	exc2.printStackTrace();
                                             }
+                                            
+                                            exc.printStackTrace();
                                             break;
                                         }
                                     }
