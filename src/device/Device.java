@@ -19,15 +19,14 @@ public class Device {
     private final int MAX = 65507;
 
     private Socket sockTCP = null;
-    
     private InetAddress ipManager = null;
 
     
     public void deviceHandlerUDP() {
         try {
-            final MulticastSocket sock = new MulticastSocket(UDP_PORT);
-            InetAddress addr = InetAddress.getByName(MULTICASTADDRESS);
-            sock.joinGroup(addr);
+            final MulticastSocket multiCastSock = new MulticastSocket(UDP_PORT);
+            InetAddress addrGroup = InetAddress.getByName(MULTICASTADDRESS);
+            multiCastSock.joinGroup(addrGroup);
 
             Runnable runnable = new Runnable() {
 
@@ -41,26 +40,28 @@ public class Device {
                             DatagramPacket packet = new DatagramPacket(mess,mess.length);
                             System.out.println("Waiting for receive...");
 
-                            sock.receive(packet);
+                            multiCastSock.receive(packet);
 
                             System.out.println("Ricevuti: "+packet.getData().toString()+" byte");
-                            DatagramSocket socket = new DatagramSocket();
+                            
+                            DatagramSocket datagramSocket = new DatagramSocket();
                             ipManager = packet.getAddress();
-                            socket.connect(ipManager, UDP_PORT);
+                            datagramSocket.connect(ipManager, UDP_PORT);
                             DatagramPacket toSend = new DatagramPacket(msg.getBytes(), msg.length(),ipManager, UDP_PORT);
-                            socket.send(toSend);
-                            socket.close();
+                            datagramSocket.send(toSend);
+                            datagramSocket.close();
                      
                          
                         } catch (IOException e) {
-                           
-                            sock.close();
+                            System.out.println(e.getMessage());
+                            e.printStackTrace();
+                            multiCastSock.close();
                         }
                     }
                 }
             };
-            Thread t = new Thread(runnable);
-            t.start();
+            Thread tUDP = new Thread(runnable);
+            tUDP.start();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             System.out.println("DeviceHandler --- IOExcept");
@@ -115,8 +116,8 @@ public class Device {
 			}
 		};
 
-		Thread t = new Thread(runnable);
-		t.start();
+		Thread tTCP = new Thread(runnable);
+		tTCP.start();
     	
    
     	
