@@ -13,9 +13,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-//Mettere tutto in un packet?
-//Capire dove bisogna fare close
-//Eliminare == null nel costruttore?
+
 
 public class Manager {
     public static  Map<String,DeviceInfo> set;
@@ -34,37 +32,32 @@ public class Manager {
     }
 
 	public void scanNetwork() {
-
 		MulticastSocket sock = null;
 		try {
-			sock = new MulticastSocket();
-		} catch (IOException e1) {
-			System.out.println("scanNetwork --- Socket exception");
-			e1.printStackTrace();
-			sock.close();
-		}
 
-		// TODO Auto-generated method stub
-		byte[] mess = { 'S', 'C', 'A', 'N' };
-		InetAddress addr = null;
-		try {
-			addr = InetAddress.getByName(MULTICAST_ADDRESS);
+			sock = new MulticastSocket();
+
+			byte[] mess = { 'S', 'C', 'A', 'N' };
+			InetAddress addr = InetAddress.getByName(MULTICAST_ADDRESS);
+
+			DatagramPacket packet = new DatagramPacket(mess, mess.length, addr, UDP_PORT);
+
+			sock.send(packet);
+
 		} catch (UnknownHostException e1) {
 			System.out.println("scanNetwork --- unknown host exception");
 			e1.printStackTrace();
-		}
-
-		DatagramPacket packet = new DatagramPacket(mess, mess.length, addr, UDP_PORT);
-
-		try {
-			sock.send(packet);
 
 		} catch (IOException e) {
-			System.out.println("scanNetwork --- send IO except");
+			// System.out.println("scanNetwork --- send IO except");
+			System.out.println(e.getMessage());
 			e.printStackTrace();
+
+		} finally {
+			sock.close();
 		}
 
-    }
+	}
 
 	public void handleResponseUDP() {
 		try {
