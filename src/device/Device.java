@@ -50,10 +50,8 @@ public class Device {
                             DatagramPacket toSend = new DatagramPacket(msg.getBytes(), msg.length(),ipManager, UDP_PORT);
                             socket.send(toSend);
                             socket.close();
-                            
-                           
-
-                          
+                     
+                         
                         } catch (IOException e) {
                            
                             sock.close();
@@ -66,79 +64,68 @@ public class Device {
         } catch (IOException e) {
             System.out.println(e.getMessage());
             System.out.println("DeviceHandler --- IOExcept");
-            //sock.leaveGroup(addr);
-            //sock.close();
+            
         }
 
     }
     
     public void deviceHandlerTCP() {
     	
-    	
-    
-        Runnable runnable = new Runnable() {
+		Runnable runnable = new Runnable() {
 
 			@Override
 			public void run() {
-				while(true) {
+				while (true) {
 					try {
-						System.out.println("********************** "+ipManager);
-					if(ipManager != null) {
-						 //Inizio connessione TCP 
-                        //Creazione Socket
-                        String ipServer = ipManager.getHostAddress();
-                        System.out.println("############################### "+ipServer);
-                        if (sockTCP == null) 
-                            sockTCP = new Socket(ipServer,TCP_PORT);
-                         
-                        
-                        
-                        // Inviamo la stringa, usando un PrintWriter
-                        OutputStream os = sockTCP.getOutputStream();
-                        Writer wr = new OutputStreamWriter(os,"UTF-8");
-                        PrintWriter prw = new PrintWriter(wr);
-                        prw.println("I'm Alive");
-                        prw.flush();
-                        
-                        System.out.println("TCP Packet (Alive) sent to:"+sockTCP.getInetAddress());
-			    		
-                       
-                        
-			    		
-			    		
-			    	}
-					
-				}catch(IOException e) {
-					 System.out.println(e.getMessage());
-                     System.out.println("DeviceHandler --- IOExcept (TCP thread)");
-                     try {
-                         sockTCP.close();
-                         sockTCP = null;
-                         ipManager=null;
-                     } catch (IOException e1) {
-                         System.out.println(e1.getMessage());
-                         System.out.println("DeviceHandler --- IOExcept (TCP sock close)");
-                     }
-					
-					
-					
+						System.out.println("********************** " + ipManager);
+						if (ipManager != null) {
+							// Inizio connessione TCP
+							// Creazione Socket
+							String ipServer = ipManager.getHostAddress();
+
+							if (sockTCP == null)
+								sockTCP = new Socket(ipServer, TCP_PORT);
+
+							// Inviamo la stringa, usando un PrintWriter
+							OutputStream os = sockTCP.getOutputStream();
+							Writer wr = new OutputStreamWriter(os, "UTF-8");
+							PrintWriter prw = new PrintWriter(wr);
+							prw.println("I'm Alive");
+							prw.flush();
+
+							System.out.println("TCP Packet (Alive) sent to:" + sockTCP.getInetAddress());
+
+						}
+
+					} catch (IOException e) {
+						System.out.println(e.getMessage());
+						System.out.println("DeviceHandler --- IOExcept (TCP thread)");
+						try {
+							sockTCP.close();
+							sockTCP = null;
+							ipManager = null;
+						} catch (IOException e1) {
+							System.out.println(e1.getMessage());
+							System.out.println("DeviceHandler --- IOExcept (TCP sock close)");
+						}
+
+					}
 				}
-				}
-				
-			}};
-			
-			Thread t = new Thread(runnable);
-            t.start();
-    	
+
+			}
+		};
+
+		Thread t = new Thread(runnable);
+		t.start();
     	
    
     	
     }
 
-    public static void  main(String [] s) {
-        Device d = new Device();
-        d.deviceHandlerUDP();
-        d.deviceHandlerTCP();
-    }
+	public static void main(String[] s) {
+		Device d = new Device();
+		d.deviceHandlerUDP();
+		d.deviceHandlerTCP();
+	}
 
 }
