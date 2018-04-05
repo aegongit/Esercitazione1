@@ -23,7 +23,7 @@ public class Manager {
     public final int MAX = 65507;
 
 
-    private ServerSocket serv;
+    private ServerSocket serverSocket;
 
     public Manager() {
         if(set == null) {
@@ -75,7 +75,6 @@ public class Manager {
 							sock.receive(packet);
 							System.out.println("UDP Packet Received from : " + packet.getAddress().toString());
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							System.out.println("handleResponseUDP --- receive except");
 							e.printStackTrace();
 							sock.close();
@@ -96,7 +95,7 @@ public class Manager {
 
     public void handlerTCP() {
 		try {
-			serv = new ServerSocket(TCP_PORT);
+			serverSocket = new ServerSocket(TCP_PORT);
 
 			Runnable runnableTCP = new Runnable() {
 
@@ -104,7 +103,7 @@ public class Manager {
 				public void run() {
 					while (true) {
 						try {
-							Socket sock = serv.accept();
+							Socket sock = serverSocket.accept();
 
 							Runnable server = new Runnable() {
 								// Questo thread interno sarebbe il thread delegato alla gestione di 1 singolo
@@ -130,7 +129,7 @@ public class Manager {
 													Manager.set.notifyAll();
 												}
 											}
-										} catch (Exception exc) {
+										} catch (IOException exc) {
 											System.out.println(
 													"handleTCP --- IO except lettura risposta " + exc.getMessage());
 
@@ -151,6 +150,7 @@ public class Manager {
 						} catch (IOException e) {
 							System.out.println(e.getMessage());
 							System.out.println("handleTCP --- IO except (runnable server)");
+							
 						}
 					}
 				}
@@ -165,7 +165,7 @@ public class Manager {
     
     public void shutdown() {
         try {
-        	serv.close();
+        	serverSocket.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
