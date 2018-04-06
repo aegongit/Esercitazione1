@@ -61,8 +61,9 @@ public class GUIScanner {
 	private void initialize() {
 		frmIpScanner = new JFrame();
 		frmIpScanner.addWindowListener(new WindowAdapter() {
+			
 			@Override
-			public void windowClosed(WindowEvent arg0) {
+			public void windowClosing(WindowEvent arg0) {
 				manager.shutdown();
 				System.exit(0);
 			}
