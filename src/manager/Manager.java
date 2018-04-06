@@ -11,13 +11,16 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 
 
 public class Manager {
     public static  Map<String,DeviceInfo> set;
-    public static final String MULTICAST_ADDRESS  = "224.0.0.1";
+    public static final String MULTICAST_ADDRESS  = "224.0.0.2";
     public final int UDP_PORT = 7777;
     public final int TCP_PORT = 7778;
     public final int MAX = 65507;
@@ -25,9 +28,11 @@ public class Manager {
 
     private ServerSocket serverSocket;
 
+
     public Manager() {
         if(set == null) {
             set  = new HashMap<>();
+            
         }
     }
 
@@ -104,6 +109,7 @@ public class Manager {
 					while (true) {
 						try {
 							Socket sock = serverSocket.accept();
+							
 
 							Runnable server = new Runnable() {
 								// Questo thread interno sarebbe il thread delegato alla gestione di 1 singolo
@@ -165,9 +171,12 @@ public class Manager {
     
     public void shutdown() {
         try {
+        	
         	serverSocket.close();
+        	
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
     public static void main(String[] args) {
