@@ -2,6 +2,10 @@ package manager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -24,6 +28,8 @@ public class Manager {
     public final int UDP_PORT = 7777;
     public final int TCP_PORT = 7778;
     public final int MAX = 65507;
+    public final String MSG_DEVICE = "I'm Alive";
+    public final String MSG_MANAGER = "I'm Alive";
 
 
     private ServerSocket serverSocket;
@@ -123,7 +129,7 @@ public class Manager {
                                             
                                             
                                             System.out.println("Risposta :"+s);
-                                            if(!s.isEmpty() && s.equals("I'm Alive")){ //aggiunto controllo isEmpty
+                                            if(!s.isEmpty() && s.equals(MSG_DEVICE)){ //aggiunto controllo isEmpty
                                                 synchronized (set) {
                                                         if (Manager.set.containsKey(sock.getInetAddress().toString()))
                                                         {
@@ -134,7 +140,13 @@ public class Manager {
 														Manager.set.put(sock.getInetAddress().toString(),new DeviceInfo(System.currentTimeMillis())); // aggiunge uno nuovo
 													Manager.set.notifyAll();
 												}
-											}
+                                            }
+                                            // Inviamo la stringa, usando un PrintWriter
+                                            OutputStream os = sock.getOutputStream();
+                                            Writer wr = new OutputStreamWriter(os, "UTF-8");
+                                            PrintWriter prw = new PrintWriter(wr);
+                                            prw.println("MSG_MANAGER");
+                                            prw.flush();
 										} catch (IOException exc) {
 											System.out.println(
 													"handleTCP --- IO except lettura risposta " + exc.getMessage());

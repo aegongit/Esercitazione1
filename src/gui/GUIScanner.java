@@ -138,7 +138,6 @@ public class GUIScanner {
 				
 				manager.scanNetwork();
 				
-				//btnScan.setEnabled(false);
 				
 			}
 		});
@@ -151,16 +150,16 @@ public class GUIScanner {
 		lblNewLabel_1.setBounds(10, 54, 89, 14);
 		frmIpScanner.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblAlive = new JLabel("Disconneted");
+		JLabel lblAlive = new JLabel("Not Alive");
 		lblAlive.setBounds(248, 482, 102, 14);
 		frmIpScanner.getContentPane().add(lblAlive);
 		lblAlive.setForeground(Color.GRAY);
 		lblAlive.setBackground(Color.BLUE);
 		lblAlive.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		JLabel lblConnected = new JLabel("Connected");
-		lblConnected.setHorizontalAlignment(SwingConstants.LEFT);
-		lblConnected.setBounds(175, 482, 57, 14);
+		JLabel lblConnected = new JLabel("Alive");
+		lblConnected.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblConnected.setBounds(184, 482, 47, 14);
 		frmIpScanner.getContentPane().add(lblConnected);
 		lblConnected.setForeground(Color.BLUE);
 		
@@ -205,52 +204,50 @@ public class GUIScanner {
 					int count = 0;
 					
 					
-					while(i.hasNext()) {
-						count ++;
+					while (i.hasNext()) {
+						count++;
 						String key = (String) i.next();
 						DeviceInfo device = Manager.set.get(key);
-						JLabel  l = find(key);
-						if( l != null) {
+						JLabel l = find(key);
+						if (l != null) {
 							lblNewLabel.removeFirstOccurrence(l);
 							JLabel tmpLabel = mapSec.remove(l.getText());
 							frmIpScanner.getContentPane().remove(tmpLabel);
 							frmIpScanner.getContentPane().remove(l);
-							
+
 						}
-						
+
 						JLabel tmpLabel = new JLabel(key);
-						
+
 						lblNewLabel.add(tmpLabel);
-						System.out.println("Last update: "+(System.currentTimeMillis()-device.getLast_update()));
-						if(device.isAlive() && !device.isExpired())
+						System.out.println("Last update: " + (System.currentTimeMillis() - device.getLast_update()));
+						if (device.isAlive() && !device.isExpired())
 							tmpLabel.setForeground(Color.BLUE);
 						else {
 							tmpLabel.setForeground(Color.GRAY);
 							System.out.println(tmpLabel.getText());
-						
+
 						}
-						String timeLast = String.valueOf((System.currentTimeMillis()-device.getLast_update())/1000);
-						JLabel tmpLabelLast = new JLabel(timeLast+" sec");
-						mapSec.put(tmpLabel.getText(),tmpLabelLast );
-						tmpLabel.setBounds(23, 60+(count*10), 104, 20+(count*10));
-						
-						tmpLabelLast.setBounds(127,60+(count*10),200,20+(count*10));
+						String timeLast = String.valueOf((System.currentTimeMillis() - device.getLast_update()) / 1000);
+						JLabel tmpLabelLast = new JLabel(timeLast + " sec");
+						mapSec.put(tmpLabel.getText(), tmpLabelLast);
+						tmpLabel.setBounds(23, 60 + (count * 10), 104, 20 + (count * 10));
+
+						tmpLabelLast.setBounds(127, 60 + (count * 10), 200, 20 + (count * 10));
 						frmIpScanner.getContentPane().add(tmpLabelLast);
 						frmIpScanner.getContentPane().add(tmpLabel);
-						
+
 						frmIpScanner.repaint();
-						
-						
+
 					}
-				
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
-				}
-				
+
 			}};
 			
 			Thread refreshStatusT = new Thread(refreshStatus);

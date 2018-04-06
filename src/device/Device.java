@@ -1,6 +1,8 @@
 package device;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -17,6 +19,9 @@ public class Device {
     private final int UDP_PORT = 7777;
     private final int TCP_PORT = 7778;
     private final int MAX = 65507;
+    private final int TIMEOUT = 10000;
+    public final String MSG_DEVICE = "I'm Alive";
+    public final String MSG_MANAGER = "I'm Alive";
 
     private Socket sockTCP = null;
     private InetAddress ipManager = null;
@@ -35,7 +40,7 @@ public class Device {
 
                     while(true) {
                         try {	
-                            String msg = "I'm Here";
+                            String msg = MSG_DEVICE;
                             byte [] mess  = new byte[MAX];
                             DatagramPacket packet = new DatagramPacket(mess,mess.length);
                             System.out.println("Waiting for receive...");
@@ -78,23 +83,29 @@ public class Device {
 			public void run() {
 				while (true) {
 					try {
-						System.out.println("********************** " + ipManager);
+						System.out.println("Waiting for receive...");
 						if (ipManager != null) {
 							// Inizio connessione TCP
 							// Creazione Socket
 							String ipServer = ipManager.getHostAddress();
 
-							if (sockTCP == null)
+							if (sockTCP == null) {
 								sockTCP = new Socket(ipServer, TCP_PORT);
+								sockTCP.setSoTimeout(TIMEOUT);
+							}
 
 							// Inviamo la stringa, usando un PrintWriter
 							OutputStream os = sockTCP.getOutputStream();
 							Writer wr = new OutputStreamWriter(os, "UTF-8");
 							PrintWriter prw = new PrintWriter(wr);
-							prw.println("I'm Alive");
+							prw.println(MSG_DEVICE);
 							prw.flush();
 
 							System.out.println("TCP Packet (Alive) sent to:" + sockTCP.getInetAddress());
+							
+							BufferedReader brd = new BufferedReader(new InputStreamReader(sockTCP.getInputStream(),"UTF-8"));
+                            String s = brd.readLine();
+                            System.out.println("Response from the manager: "+s);
 
 						}
 
