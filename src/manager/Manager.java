@@ -145,7 +145,7 @@ public class Manager {
                                             OutputStream os = sock.getOutputStream();
                                             Writer wr = new OutputStreamWriter(os, "UTF-8");
                                             PrintWriter prw = new PrintWriter(wr);
-                                            prw.println("MSG_MANAGER");
+                                            prw.println(MSG_MANAGER);
                                             prw.flush();
 										} catch (IOException exc) {
 											System.out.println(
