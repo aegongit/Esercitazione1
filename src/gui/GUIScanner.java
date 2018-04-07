@@ -84,14 +84,14 @@ public class GUIScanner {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				Iterator i =  Manager.set.keySet().iterator();
+				Iterator i =  Manager.setDevices.keySet().iterator();
 				int count = 0;
 				
 				
 				while(i.hasNext()) {
 					count ++;
 					String key = (String) i.next();
-					DeviceInfo device = Manager.set.get(key);
+					DeviceInfo device = Manager.setDevices.get(key);
 					JLabel  l = find(key);
 					if( l != null) {
 						lblNewLabel.removeFirstOccurrence(l);
@@ -200,14 +200,14 @@ public class GUIScanner {
 			@Override
 			public void run() {
 				while(true) {
-					Iterator i =  Manager.set.keySet().iterator();
+					Iterator i =  Manager.setDevices.keySet().iterator();
 					int count = 0;
 					
 					
 					while (i.hasNext()) {
 						count++;
 						String key = (String) i.next();
-						DeviceInfo device = Manager.set.get(key);
+						DeviceInfo device = Manager.setDevices.get(key);
 						JLabel l = find(key);
 						if (l != null) {
 							lblNewLabel.removeFirstOccurrence(l);

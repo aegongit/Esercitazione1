@@ -23,7 +23,7 @@ import java.util.Queue;
 
 
 public class Manager {
-    public static  Map<String,DeviceInfo> set;
+    public static  Map<String,DeviceInfo> setDevices;
     public static final String MULTICAST_ADDRESS  = "224.0.0.2";
     public final int UDP_PORT = 7777;
     public final int TCP_PORT = 7778;
@@ -36,36 +36,36 @@ public class Manager {
 
 
     public Manager() {
-        if(set == null) {
-            set  = new HashMap<>();
+        if(setDevices == null) {
+            setDevices  = new HashMap<>();
             
         }
     }
 
 	public void scanNetwork() {
-		MulticastSocket sock = null;
+		MulticastSocket sockScan = null;
 		try {
 
-			sock = new MulticastSocket();
+			sockScan = new MulticastSocket();
 
 			byte[] mess = { 'S', 'C', 'A', 'N' };
 			InetAddress addr = InetAddress.getByName(MULTICAST_ADDRESS);
 
 			DatagramPacket packet = new DatagramPacket(mess, mess.length, addr, UDP_PORT);
 
-			sock.send(packet);
+			sockScan.send(packet);
 
 		} catch (UnknownHostException e1) {
 			System.out.println("scanNetwork --- unknown host exception");
 			e1.printStackTrace();
 
 		} catch (IOException e) {
-			// System.out.println("scanNetwork --- send IO except");
+			System.out.println("scanNetwork --- send IO except");
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 
 		} finally {
-			sock.close();
+			sockScan.close();
 		}
 
 	}
@@ -130,15 +130,15 @@ public class Manager {
                                             
                                             System.out.println("Risposta :"+s);
                                             if(!s.isEmpty() && s.equals(MSG_DEVICE)){ //aggiunto controllo isEmpty
-                                                synchronized (set) {
-                                                        if (Manager.set.containsKey(sock.getInetAddress().toString()))
+                                                synchronized (setDevices) {
+                                                        if (Manager.setDevices.containsKey(sock.getInetAddress().toString()))
                                                         {
-                                                            System.out.println("Aggiorna");
-                                                            Manager.set.get(sock.getInetAddress().toString()).setLast_update(System.currentTimeMillis());                                                             Manager.set.get(sock.getInetAddress().toString()).setAlive(true);
+                                                            
+                                                            Manager.setDevices.get(sock.getInetAddress().toString()).setLast_update(System.currentTimeMillis());                                                             Manager.setDevices.get(sock.getInetAddress().toString()).setAlive(true);
                                                         }
 													else
-														Manager.set.put(sock.getInetAddress().toString(),new DeviceInfo(System.currentTimeMillis())); // aggiunge uno nuovo
-													Manager.set.notifyAll();
+														Manager.setDevices.put(sock.getInetAddress().toString(),new DeviceInfo(System.currentTimeMillis())); // aggiunge uno nuovo
+													Manager.setDevices.notifyAll();
 												}
                                             }
                                             // Inviamo la stringa, usando un PrintWriter
@@ -148,8 +148,7 @@ public class Manager {
                                             prw.println(MSG_MANAGER);
                                             prw.flush();
 										} catch (IOException exc) {
-											System.out.println(
-													"handleTCP --- IO except lettura risposta " + exc.getMessage());
+											System.out.println("handleTCP --- IO except lettura risposta " + exc.getMessage());
 
 											try {
 												sock.close();

@@ -33,7 +33,12 @@ public class DeviceInfo {
 	 * @return true/false rispettivamnete se alive/not alive
 	 */
 	public boolean isExpired() {
-            return (System.currentTimeMillis() - this.last_update)>=DeviceInfo.EXPIRE;
+		if((System.currentTimeMillis() - this.last_update)>=DeviceInfo.EXPIRE) {
+			this.alive=false;
+			return true;
+		}
+        this.alive=true;
+		return false;
 	}
 	
 	public boolean isAlive() {
