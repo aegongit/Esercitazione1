@@ -79,8 +79,8 @@ public class GUIScanner {
 		manager.scanNetwork();
 		manager.handleResponseUDP();
 		manager.handlerTCP();
-		JButton btnNewButton = new JButton("Stato");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnStato = new JButton("Stato");
+		btnStato.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				
@@ -129,8 +129,8 @@ public class GUIScanner {
 			}
 			
 		});
-		btnNewButton.setBounds(232, 11, 89, 23);
-		frmIpScanner.getContentPane().add(btnNewButton);
+		btnStato.setBounds(232, 11, 89, 23);
+		frmIpScanner.getContentPane().add(btnStato);
 		
 		JButton btnScan = new JButton("Scan");
 		btnScan.addActionListener(new ActionListener() {
