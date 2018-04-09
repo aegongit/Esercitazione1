@@ -31,6 +31,7 @@ public class GUIScanner {
 	private LinkedList<JLabel> lblNewLabel;
 	private HashMap<String,JLabel> mapSec;
 	private Manager manager;
+	private static final  long  REFRESH = 1000; // Tempo di aggiornamento stato 
 
 	/**
 	 * Launch the application.
@@ -242,7 +243,7 @@ public class GUIScanner {
 					}
 
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(REFRESH);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
