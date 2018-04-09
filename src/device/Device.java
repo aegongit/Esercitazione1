@@ -20,8 +20,9 @@ public class Device {
     private final int TCP_PORT = 7778;
     private final int MAX = 65507;
     private final int TIMEOUT = 10000;
-    public final String MSG_DEVICE = "I'm Alive";
-    public final String MSG_MANAGER = "I'm Alive";
+    public final String MSG_DEVICE_UDP = "I'M HERE";
+    public final String MSG_DEVICE_TCP = "STILL ALIVE";
+    
 
     private Socket sockTCP = null;
     private InetAddress ipManager = null;
@@ -40,7 +41,7 @@ public class Device {
 
                     while(true) {
                         try {	
-                            String msg = MSG_DEVICE;
+                            String msg = MSG_DEVICE_UDP;
                             byte [] mess  = new byte[MAX];
                             DatagramPacket packet = new DatagramPacket(mess,mess.length);
                             System.out.println("Waiting for receive...");
@@ -98,7 +99,7 @@ public class Device {
 							OutputStream os = sockTCP.getOutputStream();
 							Writer wr = new OutputStreamWriter(os, "UTF-8");
 							PrintWriter prw = new PrintWriter(wr);
-							prw.println(MSG_DEVICE);
+							prw.println(MSG_DEVICE_TCP);
 							prw.flush();
 
 							System.out.println("TCP Packet (Alive) sent to:" + sockTCP.getInetAddress());

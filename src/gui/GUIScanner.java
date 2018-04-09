@@ -151,16 +151,16 @@ public class GUIScanner {
 		lblNewLabel_1.setBounds(10, 54, 89, 14);
 		frmIpScanner.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lblAlive = new JLabel("Not Alive");
+		JLabel lblAlive = new JLabel("Disconnected");
 		lblAlive.setBounds(248, 482, 102, 14);
 		frmIpScanner.getContentPane().add(lblAlive);
 		lblAlive.setForeground(Color.GRAY);
 		lblAlive.setBackground(Color.BLUE);
 		lblAlive.setHorizontalAlignment(SwingConstants.LEFT);
 		
-		JLabel lblConnected = new JLabel("Alive");
+		JLabel lblConnected = new JLabel("Connected");
 		lblConnected.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblConnected.setBounds(184, 482, 47, 14);
+		lblConnected.setBounds(122, 482, 109, 14);
 		frmIpScanner.getContentPane().add(lblConnected);
 		lblConnected.setForeground(Color.BLUE);
 		

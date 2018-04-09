@@ -28,8 +28,8 @@ public class Manager {
     public final int UDP_PORT = 7777;
     public final int TCP_PORT = 7778;
     public final int MAX = 65507;
-    public final String MSG_DEVICE = "I'm Alive";
-    public final String MSG_MANAGER = "I'm Alive";
+    public final String MSG_DEVICE_TCP = "STILL ALIVE";
+    public final String MSG_MANAGER_TCP = "STILL ALIVE";
 
 
     private ServerSocket serverSocket;
@@ -129,7 +129,7 @@ public class Manager {
                                             
                                             
                                             System.out.println("Risposta :"+s);
-                                            if(!s.isEmpty() && s.equals(MSG_DEVICE)){ //aggiunto controllo isEmpty
+                                            if(!s.isEmpty() && s.equals(MSG_DEVICE_TCP)){ //aggiunto controllo isEmpty
                                                 synchronized (setDevices) {
                                                         if (Manager.setDevices.containsKey(sock.getInetAddress().toString()))
                                                         {
@@ -145,7 +145,7 @@ public class Manager {
                                             OutputStream os = sock.getOutputStream();
                                             Writer wr = new OutputStreamWriter(os, "UTF-8");
                                             PrintWriter prw = new PrintWriter(wr);
-                                            prw.println(MSG_MANAGER);
+                                            prw.println(MSG_MANAGER_TCP);
                                             prw.flush();
 										} catch (IOException exc) {
 											System.out.println("handleTCP --- IO except lettura risposta " + exc.getMessage());
