@@ -29,7 +29,7 @@ public class Manager {
     public final int TCP_PORT = 7778;
     public final int MAX = 65507;
     public final String MSG_DEVICE_TCP = "STILL ALIVE";
-    public final String MSG_MANAGER_TCP = "STILL ALIVE";
+    public final String MSG_MANAGER_TCP = "OK";
 
 
     private ServerSocket serverSocket;

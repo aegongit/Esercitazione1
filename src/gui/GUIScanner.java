@@ -169,9 +169,9 @@ public class GUIScanner {
 		label.setBounds(231, 482, 14, 14);
 		frmIpScanner.getContentPane().add(label);
 		
-		JLabel lblLastAlive = new JLabel("Last ALIVE");
+		JLabel lblLastAlive = new JLabel("Last ALIVE (in sec.)");
 		lblLastAlive.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
-		lblLastAlive.setBounds(131, 54, 95, 14);
+		lblLastAlive.setBounds(131, 54, 114, 14);
 		frmIpScanner.getContentPane().add(lblLastAlive);
 		
 		JSeparator separator = new JSeparator();
