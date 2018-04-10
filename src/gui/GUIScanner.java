@@ -11,13 +11,10 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-
 import manager.DeviceInfo;
 import manager.Manager;
-
 import java.awt.Font;
 import javax.swing.JSeparator;
 import java.awt.event.WindowAdapter;
