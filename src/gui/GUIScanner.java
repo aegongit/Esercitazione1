@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import device.Device;
 import manager.DeviceInfo;
 import manager.Manager;
 

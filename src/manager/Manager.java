@@ -24,7 +24,7 @@ import java.util.Queue;
 
 public class Manager {
     public static  Map<String,DeviceInfo> setDevices;
-    public static final String MULTICAST_ADDRESS  = "224.0.0.2";
+    public static final String MULTICAST_ADDRESS  = "224.0.0.1";
     public final int UDP_PORT = 7777;
     public final int TCP_PORT = 7778;
     public final int MAX = 65507;
