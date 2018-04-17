@@ -130,7 +130,6 @@ public class Manager {
                                                 synchronized (setDevices) {
                                                         if (Manager.setDevices.containsKey(sock.getInetAddress().toString()))
                                                         {
-                                                            
                                                             Manager.setDevices.get(sock.getInetAddress().toString()).setLast_update(System.currentTimeMillis());                                                             Manager.setDevices.get(sock.getInetAddress().toString()).setAlive(true);
                                                         }
 													else
