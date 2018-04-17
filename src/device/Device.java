@@ -50,12 +50,10 @@ public class Device {
 
                             System.out.println("Ricevuti: "+packet.getData().toString()+" byte");
                             
-                            DatagramSocket datagramSocket = new DatagramSocket();
+                           
                             ipManager = packet.getAddress();
-                            datagramSocket.connect(ipManager, UDP_PORT);
-                            DatagramPacket toSend = new DatagramPacket(msg.getBytes(), msg.length(),ipManager, UDP_PORT);
-                            datagramSocket.send(toSend);
-                            datagramSocket.close();
+                            sendDatagram(ipManager, msg);
+                            
                      
                          
                         } catch (IOException e) {
@@ -132,6 +130,21 @@ public class Device {
 		tTCP.start();
     	
    
+    	
+    }
+    
+    /**
+     * Metodo per l'invio di un datagramma UDP
+     * @param ipManager ip del destinatario
+     * @param msg Messaggio da inoltrare
+     * @throws IOException
+     */
+    private void sendDatagram(InetAddress ipManager, String msg) throws IOException {
+    	DatagramSocket datagramSocket = new DatagramSocket();
+        datagramSocket.connect(ipManager, UDP_PORT);
+        DatagramPacket toSend = new DatagramPacket(msg.getBytes(), msg.length(),ipManager, UDP_PORT);
+        datagramSocket.send(toSend);
+        datagramSocket.close();
     	
     }
 
