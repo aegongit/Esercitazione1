@@ -1,5 +1,9 @@
 package manager;
 
+
+/**
+ * Classe che contiene metodi e informazioni di supprto per la gestione dei device da parte del Manager 
+ */
 public class DeviceInfo {
 	private long last_update ;
 	private boolean alive;
