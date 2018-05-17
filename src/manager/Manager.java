@@ -39,6 +39,10 @@ public class Manager {
         }
     }
 
+    /**
+     * Il metodo scanNetwork effettua la scansione della rete inviando tramite il protocollo UDP 
+     * il messaggio 'SCAN' a tutti i device registrati all'indirizzo MULTICAST_ADDRESS
+     */
 	public void scanNetwork() {
 		MulticastSocket sockScan = null;
 		try {
@@ -53,11 +57,9 @@ public class Manager {
 			sockScan.send(packet);
 
 		} catch (UnknownHostException e1) {
-			System.out.println("scanNetwork --- unknown host exception");
 			e1.printStackTrace();
 
 		} catch (IOException e) {
-			System.out.println("scanNetwork --- send IO except");
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 
@@ -67,6 +69,11 @@ public class Manager {
 
 	}
 
+	/**
+	 * Il metodo handleResponseUDP si occupa di ricevere le risposte UDP da parte dei device.
+	 * In particolare viene lanciato un nuovo thread per far sì che il manager sia in continua attesa
+	 * delle risposte UDP dei device.
+	 */
 	public void handleResponseUDP() {
 		try {
 			final DatagramSocket sock = new DatagramSocket(UDP_PORT);
@@ -83,7 +90,6 @@ public class Manager {
 							sock.receive(packet);
 							System.out.println("UDP Packet Received from : " + packet.getAddress().toString());
 						} catch (IOException e) {
-							System.out.println("handleResponseUDP --- receive except");
 							e.printStackTrace();
 							sock.close();
 						}
@@ -95,12 +101,21 @@ public class Manager {
 			t.start();
 
 		} catch (SocketException e1) {
-			System.out.println("handleResponseUDP --- socket except");
 			e1.printStackTrace();
 		}
 	}
 
 
+	/**
+	 * Il metodo handlerTCP lancia un primo thread che sarà in continua attesa di richieste di connessioni TCP
+	 * da parte dei device. Dopodichè per ogni device che invia una richiesta di connessione TCP, viene lanciato un nuovo thread
+	 * che si occuperà di gestire la specifica connessione.
+	 * Lo specifico thread è in attesa del messaggio periodico STILL_ALIVE da parte del dispositivo.
+	 * In corrispondenza dell'arrivo del messaggio TCP dal device viene effettuato l'accesso sincronizzato alla HashMap setDevices
+	 * per aggiungere il dispositivo alla map o per aggiornare il campo LastUpdate se il dispositivo è già presente.
+	 * Inoltre è stato aggiunto il messaggio MSG_MANAGER_TCP che viene inviato dal Manager al device
+	 * per comunicare che il Manager è ancora online.
+	 */
     public void handlerTCP() {
 		try {
 			serverSocket = new ServerSocket(TCP_PORT);
@@ -115,8 +130,6 @@ public class Manager {
 							
 
 							Runnable server = new Runnable() {
-								// Questo thread interno sarebbe il thread delegato alla gestione di 1 singolo
-								// client?
 								@Override
 								public void run() {
 									while (true) {
@@ -126,7 +139,7 @@ public class Manager {
                                             
                                             
                                             System.out.println("Risposta :"+s);
-                                            if(!s.isEmpty() && s.equals(MSG_DEVICE_TCP)){ //aggiunto controllo isEmpty
+                                            if(!s.isEmpty() && s.equals(MSG_DEVICE_TCP)){
                                                 synchronized (setDevices) {
                                                         if (Manager.setDevices.containsKey(sock.getInetAddress().toString()))
                                                         {
@@ -144,8 +157,6 @@ public class Manager {
                                             prw.println(MSG_MANAGER_TCP);
                                             prw.flush();
 										} catch (IOException exc) {
-											System.out.println("handleTCP --- IO except lettura risposta " + exc.getMessage());
-
 											try {
 												sock.close();
 											} catch (IOException exc2) {
@@ -162,7 +173,6 @@ public class Manager {
 							threadServer.start();
 						} catch (IOException e) {
 							System.out.println(e.getMessage());
-							System.out.println("handleTCP --- IO except (runnable server)");
 							
 						}
 					}
@@ -172,10 +182,12 @@ public class Manager {
 			threadTCP.start();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
-			System.out.println("handleTCP --- IO except (runnable TCP)");
 		}
 	}
     
+    /**
+     * Metodo che si occupa di chiudere la socket del server alla chiusura della finestra  GUI
+     */
     public void shutdown() {
         try {
         	

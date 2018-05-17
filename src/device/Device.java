@@ -27,7 +27,11 @@ public class Device {
     private Socket sockTCP = null;
     private InetAddress ipManager = null;
 
-    
+    /**
+     * Il metodo deviceHandler UDP si occupa di ricevere il messaggio UDP da parte del Manager.
+     * In particolare il dispositivo si registra all'indirizzo di Multicast e viene lanciato un nuovo thread
+     * che sarà in attesa del messaggio UDP 'SCAN' del Manager. Ricevuto il messaggio, il device risponde a sua volta con il messaggio UDP "I'M HERE".
+     */
     public void deviceHandlerUDP() {
         try {
             final MulticastSocket multiCastSock = new MulticastSocket(UDP_PORT);
@@ -45,17 +49,10 @@ public class Device {
                             byte [] mess  = new byte[MAX];
                             DatagramPacket packet = new DatagramPacket(mess,mess.length);
                             System.out.println("Waiting for receive...");
-
                             multiCastSock.receive(packet);
-
                             System.out.println("Ricevuti: "+packet.getData().toString()+" byte");
-                            
-                           
                             ipManager = packet.getAddress();
                             sendDatagram(ipManager, msg);
-                            
-                     
-                         
                         } catch (IOException e) {
                             System.out.println(e.getMessage());
                             e.printStackTrace();
@@ -67,13 +64,18 @@ public class Device {
             Thread tUDP = new Thread(runnable);
             tUDP.start();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
-            System.out.println("DeviceHandler --- IOExcept");
-            
+            System.out.println(e.getMessage());   
         }
 
     }
     
+    /**
+     * Il metodo deviceHandlerTCP si occupa di creare la connessione TCP con il Manager.
+     * All'interno del thread il device invia periodicamente il messaggio STILL_ALIVE al Manager
+     * Riceve il messaggio OK del Manager che lo informa del fatto che il Manager è ancora online,infatti qualora il cliente 
+     * non ricevesse nulla da parte del manager per un certo intervallo di tempo definito da TIMEOUT si cosidererà
+     * il manager morto.
+     */
     public void deviceHandlerTCP() {
     	
 		Runnable runnable = new Runnable() {
@@ -82,7 +84,7 @@ public class Device {
 			public void run() {
 				while (true) {
 					try {
-						System.out.println("Waiting for receive...");
+						
 						if (ipManager != null) {
 							// Inizio connessione TCP
 							// Creazione Socket
@@ -110,14 +112,12 @@ public class Device {
 
 					} catch (IOException e) {
 						System.out.println(e.getMessage());
-						System.out.println("DeviceHandler --- IOExcept (TCP thread)");
 						try {
 							sockTCP.close();
 							sockTCP = null;
 							ipManager = null;
 						} catch (IOException e1) {
 							System.out.println(e1.getMessage());
-							System.out.println("DeviceHandler --- IOExcept (TCP sock close)");
 						}
 
 					}
